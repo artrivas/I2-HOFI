@@ -1,0 +1,1 @@
+python main.py "dataset Cars gpu_id -1 batch_size 8 reduce_lr_bool True model_name scgnngatres_comb wandb_log False"
