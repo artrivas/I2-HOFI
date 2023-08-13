@@ -1,0 +1,45 @@
+DATA:
+  nb_classes: 100
+  image_size: [224, 224]
+  dataset: 'Aircraft'
+HARDWARE:
+  multi_gpu: False
+  gpu_id: -1        # CPU : -1 and GPU: 0/1
+  gpu_utilisation: 1
+AUGMENTATION:
+  aug_zoom: 0.15
+  aug_tx: 0
+  aug_ty: 0
+  aug_rotation: 15
+MODEL:
+  batch_size: 8
+  model_name: 'scgnn'  # MODELS --> 'srgnn'; 'srgnn_channel'
+  checkpoint: 'TrainedModels/'
+  summary: True
+  save_model: False
+HYPERPARAMETERS:
+  alpha: 0.3
+  ROIS_resolution: 42
+  minSize: 2
+  ROIS_grid_size: 3
+  pool_size: 3
+  gcn_outfeat_dim : 512
+  gat_outfeat_dim : 512
+  dropout_rate : 0.2
+  l2_reg : 2.5e-4
+  attn_heads : 1
+  appnp_activation : 'sigmoid'
+  gat_activation : 'elu'
+  concat_heads : True
+TRAIN:
+  completed_epochs: 0
+  validation_freq: 2
+  checkpoint_freq: 50
+  epochs: 150
+  alpha_teleport: 0.40
+  lr: 0.01
+  reduce_lr_bool: False
+WANDB:
+  wb_proj_name : 'SCGNN'
+  run_name : 'None'
+  wandb_log : False
