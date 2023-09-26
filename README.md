@@ -1,2 +1,2 @@
-# I2-SCGNN
-Intra and Inter Spatio-Channel Relation-aware Graph Neural Network for Fine-Grained Image Categorization
+# I2-HOFI
+nter and Intra-Region High-Order Feature Interactions with GNNs for Fine-Grained Image Categorization
