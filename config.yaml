@@ -14,9 +14,15 @@ AUGMENTATION:
 MODEL:
   batch_size: 8
   model_name: 'scgnn'  # MODELS --> 'srgnn'; 'srgnn_channel'
-  checkpoint: 'TrainedModels/'
+  checkpoint_path: 'TrainedModels/'
   summary: True
   save_model: False
+  save_best_only: False
+  load_model: False
+  backbone: 'Xception'
+  freeze_backbone: False
+  gnn1_layr: True
+  gnn2_layr: True
 HYPERPARAMETERS:
   alpha: 0.3
   ROIS_resolution: 42
@@ -34,7 +40,7 @@ HYPERPARAMETERS:
 TRAIN:
   completed_epochs: 0
   validation_freq: 2
-  checkpoint_freq: 50
+  checkpoint_freq: 2
   epochs: 150
   alpha_teleport: 0.40
   lr: 0.01
@@ -43,3 +49,5 @@ WANDB:
   wb_proj_name : 'SCGNN'
   run_name : 'None'
   wandb_log : False
+COMPLEXITY:
+  calflops: False
