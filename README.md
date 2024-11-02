@@ -1,6 +1,6 @@
 
 
-## ⏳ Under Development: I2-HOFI
+# ⏳ Under Development: I2-HOFI
 
 Paper : **Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition** 
 
