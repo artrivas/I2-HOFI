@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug  8 13:44:09 2018
-
 @author: sikdara
 
-from custom_validate_callback import TestCallback
+from custom_validate_callback import ValCallback
 
 """
 import keras, os
@@ -67,7 +65,6 @@ class ValCallback(keras.callbacks.Callback):
 
             self.val_acc = acc
             self.best_val_acc = max(self.best_val_acc, self.val_acc)
-            # print(' ============== Current epoch : {} | current val_acc : {} | best val_acc : {} ============ \n'.format(epoch, self.val_acc, self.best_val_acc))
                
             # Log validation accuracy and loss
             if self.wandb_log:

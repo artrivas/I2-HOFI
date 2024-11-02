@@ -141,22 +141,14 @@ class DirectoryDataGenerator(tf.keras.utils.Sequence):
         # Generate data
         for i, ID in enumerate(list_IDs_temp):
             # Store sample
-            
             img = cv2.imread(ID)
             img = cv2.resize(img, self.target_sizes)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) ###Swaps from opencv colour order to skimage order (might produce better outputs on some datasets)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) ### Swaps from opencv colour order to skimage order (might produce better outputs on some datasets)
             img = img.astype(K.floatx())
-            # print(' //////////////////// Size of input image --->', np.shape(img) )
             
             if self.augmentor:
                 # img = cv2.resize(img,(512,512))
                 img = self.cv2_image_augmentation(img, theta=15, tx=0., ty=0., scale=0.15, flip=False)
-
-                # # random crop image
-                # img=self.random_crop(image=img, image_size=self.target_sizes[0])
-
-                # # center crop image
-                # img = self.center_crop(img, target_size=self.target_sizes[0])
             
             if self.preprocessors:                   
                 img = self.preprocessors(img)
