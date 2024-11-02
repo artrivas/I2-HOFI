@@ -7,7 +7,7 @@
 Paper : **Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition** 
 
 ### Link to the Paper
-You can access the full paper here : [paper_link](https://link.springer.com/article/10.1007/s11263-024-02260-y)
+You can access the full paper here : [Paper_Link](https://link.springer.com/article/10.1007/s11263-024-02260-y)
 
 ### Citing paper
 If you find this work useful in your research, please use the following BibTeX entry for citation.
