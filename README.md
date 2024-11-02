@@ -8,7 +8,7 @@ Link: https://link.springer.com/article/10.1007/s11263-024-02260-y
 
 This repository is currently under development. The final code will be released soon. Stay tuned for updates!
 
-### Citing I2HOFI
+### Citing paper
 If you find this work useful in your research, please use the following BibTeX entry for citation.
 
 ```BibTeX
