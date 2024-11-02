@@ -56,7 +56,7 @@ def assign_variables(dictionary, prefix=''):
 
 """  Load and assign variables from the config file   """
 dataset_name = sys.argv[sys.argv.index('dataset') + 1] if 'dataset' in sys.argv else None
-param_dir = "./config_" + dataset_name +".yaml"
+param_dir = "./configs/config_" + dataset_name +".yaml"
 with open(param_dir, 'r') as file:
     param = yaml.load(file, Loader = yaml.FullLoader)
 print('Loading Default parameter configuration: \n', json.dumps(param, sort_keys = True, indent = 3))
