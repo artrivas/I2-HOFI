@@ -2,7 +2,7 @@
 
 ## ⏳ Under Development: I2-HOFI
 
-# This repository is currently under development. The final code will be released soon. Stay tuned for updates!
+## This repository is currently under development. The final code will be released soon. Stay tuned for updates!
 
 
 ### Link to the Paper
