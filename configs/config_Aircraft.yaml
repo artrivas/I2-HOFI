@@ -37,7 +37,7 @@ TRAIN:
   checkpoint_freq: 2
   epochs: 150
   lr: 0.01
-  reduce_lr_bool: False
+  reduce_lr_bool: True
 WANDB:
   wb_proj_name : 'I2HOFI'
   run_name : 'None'
