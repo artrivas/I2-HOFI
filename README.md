@@ -13,7 +13,7 @@ This repository implements a novel approach to Fine-Grained Visual Classificatio
 Ensure you have Python 3.9+ installed on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
 
 ### Virtual Environment Setup (Recommended)
-Recommended installation is Anaconda(https://www.anaconda.com/download). 
+For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages.
 
 ```bash
 # Install virtualenv if you haven't installed it yet
