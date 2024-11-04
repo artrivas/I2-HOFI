@@ -2,7 +2,7 @@
 
 ## ⏳ Under Development: I2-HOFI
 
-## This repository is currently under development. The final code will be released soon. Stay tuned for updates!
+## This repository is currently under development, and the final code updates are in progress. Please wait until the update is complete to ensure accurate usage and functionality. Thank you for your patience!
 
 ## Introduction
 This repository implements a novel approach to Fine-Grained Visual Classification (FGVC) using Graph Neural Networks (GNNs) for advanced feature interactions. By constructing inter- and intra-region graphs, our method combines global and local features to enhance visual pattern recognition. Using shared GNNs with an attention mechanism and the APPNP algorithm, our approach optimizes information flow, boosting model efficiency and stability with residual connections. Achieving state-of-the-art results on FGVC benchmarks, this work highlights GNNs' potential in capturing complex visual details.
