@@ -16,7 +16,6 @@ Ensure you have Python 3.9+ installed on your system. You can download it from [
 For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages.
 
 ```bash
-# Install virtualenv if you haven't installed it yet
 # Create a new Conda environment with other basic packages from anaconda channel
 conda create -n myenv anaconda python=3.9
 
