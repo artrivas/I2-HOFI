@@ -13,7 +13,7 @@ This repository implements a novel approach to Fine-Grained Visual Classificatio
 Ensure you have Python 3.9+ installed on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
 
 ### Virtual Environment Setup (Recommended)
-Recommended installation is Anaconda(https://www.anaconda.com/download)
+Recommended installation is Anaconda(https://www.anaconda.com/download). 
 
 ```bash
 # Install virtualenv if you haven't installed it yet
@@ -29,6 +29,7 @@ pip install wandb
 pip install opencv-python
 pip install spektral
 ```
+Ensure you have installed [tensorflow with cuda support](https://www.tensorflow.org/install/pip)
 
 ### Link to the Paper
 You can access the full paper here : [Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition](https://link.springer.com/article/10.1007/s11263-024-02260-y)
