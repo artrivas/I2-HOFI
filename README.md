@@ -10,7 +10,7 @@ This repository implements a novel approach to Fine-Grained Visual Classificatio
 ### Link to the Paper
 You can access the full paper here : [Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition](https://link.springer.com/article/10.1007/s11263-024-02260-y)
 
-## Installation
+## Installation Guide
 
 ### Prerequisites
 Ensure you have Python 3.9+ installed on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
