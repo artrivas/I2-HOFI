@@ -25,9 +25,9 @@ conda activate myenv
 
 # Install necessary packages
 pip install tensorflow
-pip install wandb
 pip install opencv-python
 pip install spektral
+pip install wandb
 ```
 Please ensure that TensorFlow with CUDA support is correctly installed by following the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) if you're using a GPU. For optimal performance, a GPU with a minimum of 16GB of VRAM is recommended.
 
