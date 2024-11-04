@@ -42,7 +42,6 @@ This will set up your environment with the required libraries for running the pr
 ```python
 wandb.login(key="########## PUT YOUR WandB API HASH KEY HERE #################")  # WandB API key
 ```
-
 Replace `"########## PUT YOUR WandB API HASH KEY HERE #################"` with your actual API key to enable WandB integration.
 
 ### Citing This Paper
