@@ -17,8 +17,8 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
 
 ```bash
 # Install virtualenv if you haven't installed it yet
-# Create a new Conda environment
-conda create --name myenv python=3.9
+# Create a new Conda environment with other basic packages from anaconda channel
+conda create -n myenv anaconda python=3.9
 
 # Activate the Conda environment
 conda activate myenv
