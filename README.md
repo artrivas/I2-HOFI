@@ -16,7 +16,7 @@ You can access the full paper here : [Interweaving Insights: High-Order Feature 
 Ensure you have Python 3.9+ installed on your system. You can download it from [Python's official website](https://www.python.org/downloads/).
 
 ### Virtual Environment Setup (Recommended)
-For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages.
+For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages. To get started, run the following commands in your console:
 
 ```bash
 # Create a new Conda environment with other basic packages from anaconda channel
