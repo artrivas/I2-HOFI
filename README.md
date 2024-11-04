@@ -1,6 +1,6 @@
 
 
-## ⏳ Under Development: This repository is currently under development, and the final code updates are in progress. Please wait until the update is complete to ensure accurate usage and functionality. Thank you for your patience!
+## ⏳ Under Development: Final code updates are in progress. Please wait until the update is complete to ensure accurate usage and functionality. Thank you for your patience!
 
 ## I2-HOFI
 The official source code for *"Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Classification (FGVC)"*, implementing advanced FGVC with high-order feature interactions through Graph Neural Networks (GNNs).
