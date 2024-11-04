@@ -105,7 +105,7 @@ tf.compat.v1.disable_eager_execution()
 #################################### LOGGING, BUILDING & TRAINING MODEL #############################################
 # ============== Wandb LOGGING Parameters ======================= #
 if wandb_log:
-    wandb.login(key="8715199f6fcbb8ed75e907b1c50667c3fb756097") # WandB API key
+    wandb.login(key="########## PUT YOUR WandB API HASH KEY HERE #################") # WandB API key
     wrun=wandb.init(
         project = wb_proj_name,
         name = model_name if run_name == 'None' else run_name,
