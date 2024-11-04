@@ -2,10 +2,9 @@
 This document provides a brief intro of launching jobs in I2-HOFI for training and testing. Before launching any job, make sure you have properly installed the required packages following the instruction in README.md
 
 ## Dataset Prepration
-Download the dataset and place into the datasets folder
-https://drive.google.com/file/d/1i10WiYSH1NwW9HWMSpKFYUiCdDWZGz0D/view?usp=drive_link
+Download the dataset and place into the datasets folder. You can download from the offcial website or from the zip file from below repository
 
-[Download Dataset](https://drive.google.com/uc?export=download&id=1i10WiYSH1NwW9HWMSpKFYUiCdDWZGz0D)
+- [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
 
 
 ## Train a Standard Model from Scratch
