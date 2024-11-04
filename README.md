@@ -5,10 +5,10 @@
 ## This repository is currently under development, and the final code updates are in progress. Please wait until the update is complete to ensure accurate usage and functionality. Thank you for your patience!
 
 ## I2-HOFI
-The official source code for *"Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Classification (FGVC)"*, implementing advanced FGVC with high-order feature interactions through Graph Neural Networks.
+The official source code for *"Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Classification (FGVC)"*, implementing advanced FGVC with high-order feature interactions through Graph Neural Networks (GNNs).
 
 ## Introduction
-This repository implements a novel approach to FGVC using Graph Neural Networks (GNNs) for advanced feature interactions. By constructing inter- and intra-region graphs, our method combines global and local features to enhance visual pattern recognition. Using shared GNNs with an attention mechanism and the APPNP algorithm, our approach optimizes information flow, boosting model efficiency and stability with residual connections. Achieving state-of-the-art results on FGVC benchmarks, this work highlights GNNs' potential in capturing complex visual details.
+This repository implements a novel approach to FGVC using GNNs for advanced feature interactions. By constructing inter- and intra-region graphs, our method combines global and local features to enhance visual pattern recognition. Using shared GNNs with an attention mechanism and the APPNP algorithm, our approach optimizes information flow, boosting model efficiency and stability with residual connections. Achieving state-of-the-art results on FGVC benchmarks, this work highlights GNNs' potential in capturing complex visual details.
 
 ### Link to the Paper
 You can access the full paper here : [Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition](https://link.springer.com/article/10.1007/s11263-024-02260-y)
