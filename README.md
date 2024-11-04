@@ -34,7 +34,7 @@ pip install wandb
 This will set up your environment with the required libraries for running the project. Additionally,
 - Please ensure that TensorFlow with CUDA support is correctly installed by following the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) if you're using a GPU. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
 
-- It's also recommended to use Weights & Biases (WandB) for tracking metrics such as training and validation accuracy. Start by creating a WandB account and obtaining your API key from the [quickstart guide](https://docs.wandb.ai/quickstart). In the `train.py` file, locate the following line:
+- It's also recommended to use Weights & Biases (WandB) for tracking metrics such as training and validation accuracy. Start by creating a WandB account and obtaining your API key following [quickstart guide](https://docs.wandb.ai/quickstart). In the `train.py` file, locate the following line:
 
 ```python
 wandb.login(key="########## PUT YOUR WandB API HASH KEY HERE #################")  # WandB API key
