@@ -1,1 +1,1 @@
-## Upload your fine-grained datasets here
+## Instruction to prepare datasets
