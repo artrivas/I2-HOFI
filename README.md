@@ -45,9 +45,8 @@ wandb.login(key="########## PUT YOUR WandB API HASH KEY HERE #################")
 
 Replace `"########## PUT YOUR WandB API HASH KEY HERE #################"` with your actual API key to enable WandB integration.
 
-
-### Citing paper
-If you find this work useful in your research, please use the following BibTeX entry for citation.
+### Citing This Paper
+If you find this work useful in your research, please consider citing it using the following BibTeX entry:
 
 ```BibTeX
 @article{sikdar2024interweaving,
