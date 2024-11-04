@@ -45,7 +45,7 @@ wandb.login(key="########## PUT YOUR WandB API HASH KEY HERE #################")
 Replace `"########## PUT YOUR WandB API HASH KEY HERE #################"` with your actual API key to enable WandB integration.
 
 ### Usage
-For training and inference instructions, please refer to [GETTING_STARTED.md](GETTING_STARTED.md).
+For dataset prepration please refer to [DATASET.md](datasets/DATASET.md) and training and inference instructions, please refer to [GETTING_STARTED.md](GETTING_STARTED.md).
 
 ### Citing This Paper
 If you find this work useful in your research, please consider citing it using the following BibTeX entry:
