@@ -1,6 +1,6 @@
 
 
-## ⏳ Under Development: I2-HOFI
+## ⏳ Under Development
 
 ## This repository is currently under development, and the final code updates are in progress. Please wait until the update is complete to ensure accurate usage and functionality. Thank you for your patience!
 
