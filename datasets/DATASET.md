@@ -1,4 +1,4 @@
-## INSTRUCTION TO PREPARE DATASETS
+## INSTRUCTIONs TO PREPARE DATASETS
 
 ## Dataset Prepration
 Download the dataset and place into the datasets folder. You can download from the offcial website or directly download the organized dataset zip file from below repository in organized format to directly train and test on our code.
