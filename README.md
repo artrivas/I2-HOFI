@@ -45,9 +45,9 @@ This will set up your environment with the required libraries for running the pr
 - It's also recommended to use Weights & Biases (WandB) for tracking metrics such as training and validation accuracy. Start by creating a WandB account and obtaining your API key following [quickstart guide](https://docs.wandb.ai/quickstart). In the `config_<dataset_name>.yaml` file, locate the following line:
 
 ```bash
-API_key: "##### REPLACE THIS STRING WITH YOUR WandB API HASH KEY #####" 
+API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
 ```
-Replace `"##### REPLACE THIS STRING WITH YOUR WandB API HASH KEY #####"` with your actual API key to enable WandB integration.
+Replace `"########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"` with your actual API key to enable WandB integration.
 
 ### Usage
 For dataset preparation, please refer to [DATASET.md](datasets/DATASET.md). For training and inference instructions, see [GETTING_STARTED.md](GETTING_STARTED.md).
