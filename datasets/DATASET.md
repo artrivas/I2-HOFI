@@ -67,7 +67,6 @@ Please let us know if you are facing any issue with dataset download from our re
 Follow these steps to download and organize the datasets required for training and testing the models. You have the option to download directly from the official sources or use organized versions available through provided repository links.
 
 ## Available Datasets
-
 Below are the datasets you can download and their respective sources:
 
 ### 1. Aircraft Dataset
@@ -115,4 +114,4 @@ datasets/
 │       ├── test_folder2/
 │       └── ...
 └── ...
-
+```
