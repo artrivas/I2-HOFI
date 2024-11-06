@@ -25,10 +25,10 @@ Please note the Dataset name is CASE SENSITIVE
 
 ## GPU Settings
 - For CPU (default config)
-- ```python
+```python
 python hofi/train.py dataset DATASET_NAME gpu_id 0 gpu_utilisation 0.8
 ```
 - For running in GPU
-- ```python
+```python
 python hofi/train.py dataset DATASET_NAME gpu_id 0 gpu_utilisation 0.8
 ```
