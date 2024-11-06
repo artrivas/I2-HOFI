@@ -13,9 +13,9 @@ This repository implements a novel approach to FGVC using GNNs for advanced feat
 ### Link to the Paper
 You can access the full paper here : [Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition](https://link.springer.com/article/10.1007/s11263-024-02260-y)
 
-### Updates
 
-Upcomming updates here
+### Updates
+We will soon release the model weights trained on the datasets listed in [DATASET.md](datasets/DATASET.md), allowing you to reproduce our results. Additionally, we’ll provide an inference script to facilitate result replication. For visualization purposes, we’re also preparing to release code for generating t-SNE plots to help you better understand and explore the model’s output.
 
 
 ## Installation Guide
