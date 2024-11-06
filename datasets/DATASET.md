@@ -5,11 +5,11 @@ Download the dataset and place into the datasets folder. You can download from t
 
 ### Aircraft Dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
-- Our Repo link: [Aircraft Dataset_download](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
+- Our Repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
 
 ### Caltech-UCSD Birds (CUB-200):
 - Official link: https://data.caltech.edu/records/65de6-vp158
-- Our Repo link: [CUB200_Dataset download](https://drive.google.com/uc?export=download&id=1S9RgrN-Ys6Ogc11av-9apy9sMeMuoqDZ)
+- Our Repo link: [CUB200_Dataset](https://drive.google.com/uc?export=download&id=1S9RgrN-Ys6Ogc11av-9apy9sMeMuoqDZ)
 
 ### Stanford Cars dataset
 - Official link:
