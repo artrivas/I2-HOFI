@@ -15,6 +15,6 @@ Here we can start with training a
 python hofi/train.py dataset DATASET_NAME
 ```
 
-DATASET_NAME can be either of `Aircraft`, `Cars`
+DATASET_NAME can be either of `Aircraft`, `Cars`, `CUB200`, `Flower102`, `NABird`
 
 Please note the Dataset name is CASE SENSITIVE
