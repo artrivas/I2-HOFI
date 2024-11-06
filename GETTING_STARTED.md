@@ -3,6 +3,8 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
 
 - Download the extract the github source files to ./path_to_source_dir/I2-HOFI-main
 
+- Update the `configs/config_DATASET_NAME.yaml` config file with your API key of WandB if you want to register `train` and `validation` performance metrics to WandB 
+
 - Download and extract datasets into the required folder based on the instruction given in [DATASET.md](datasets/DATASET.md)
 
 - First change the path to  the root directory from the console
