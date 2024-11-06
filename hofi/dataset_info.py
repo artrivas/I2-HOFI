@@ -10,7 +10,7 @@ def datasetInfo(dataset_name):
     elif dataset_name == "NABird":
         nb_classes  = 555
     else:
-        raise ValueError(f"Unknown dataset: {dataset_name}. Supported datasets are : Cars, Aircraft")
+        raise ValueError(f"Unknown dataset: {dataset_name}. Supported datasets are : Cars, Aircraft, CUB200, Flower102 and NABird")
     
     # Add more elif statements for other datasets as needed
 
