@@ -9,7 +9,7 @@ Download the dataset and place into the datasets folder. You can download from t
 
 ### Caltech-UCSD Birds (CUB-200):
 - Official link: https://data.caltech.edu/records/65de6-vp158
-- Our Repo link: [CUB200_Dataset](https://drive.google.com/uc?export=download&id=1S9RgrN-Ys6Ogc11av-9apy9sMeMuoqDZ)
+- Our Repo link: [CUB200 Dataset](https://drive.google.com/uc?export=download&id=1S9RgrN-Ys6Ogc11av-9apy9sMeMuoqDZ)
 
 ### Stanford Cars dataset
 - Official link:
