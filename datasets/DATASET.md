@@ -1,7 +1,7 @@
 ## Instruction to prepare datasets
 
 ## Dataset Prepration
-Download the dataset and place into the datasets folder. You can download from the offcial website or from the zip file from below repository.
+Download the dataset and place into the datasets folder. You can download from the offcial website or directly download the organized dataset zip file from below repository.
 
 ### Aircraft Dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
