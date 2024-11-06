@@ -1,7 +1,7 @@
 ## Instruction to prepare datasets
 
 ## Dataset Prepration
-Download the dataset and place into the datasets folder. You can download from the offcial website or directly download the organized dataset zip file from below repository.
+Download the dataset and place into the datasets folder. You can download from the offcial website or directly download the organized dataset zip file from below repository in organized format to directly train and test on our code.
 
 ### Aircraft Dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
@@ -12,8 +12,8 @@ Download the dataset and place into the datasets folder. You can download from t
 - Our Repo link: [CUB200 Dataset](https://drive.google.com/uc?export=download&id=1S9RgrN-Ys6Ogc11av-9apy9sMeMuoqDZ)
 
 ### Stanford Cars dataset
-- Official link:
-- Our Repo link:
+- Official link: https://pytorch.org/vision/0.16/generated/torchvision.datasets.StanfordCars.html
+- Our Repo link: 
 
 ### NABirds dataset:
 - Official link:
