@@ -7,15 +7,19 @@ Download the dataset and place into the datasets folder. You can download from t
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
 - Our Repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
 
-### Cars dataset
+### Caltech-UCSD Birds (CUB-200):
 - Official link:
 - Our Repo link:
 
-### NABird dataset:
+### Stanford Cars dataset
 - Official link:
 - Our Repo link:
 
-### Flower102 dataset:
+### NABirds dataset:
+- Official link:
+- Our Repo link:
+
+### Oxford Flowers dataset:
 - Official link:
 - Our Repo link:
   
