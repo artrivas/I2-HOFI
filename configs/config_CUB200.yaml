@@ -1,0 +1,47 @@
+DATA:
+  dataset: 'CUB200'
+  rootdir: './datasets/'             # path to Dataset ROOT DIRECTORY
+  image_size: [224, 224, 3]          # INPUT IMAGE DIMENSION
+HARDWARE:
+  gpu_id: -1                          # CPU : -1 and GPU: 0/1
+  gpu_utilisation: 1                  # fraction of GPU to use range [0, 1]
+MODEL:
+  batch_size: 8
+  model_name: 'i2hofi'                # MODELS --> 'basecnn'; 'i2hofi'
+  checkpoint_path: 'TrainedModels/'   # PATH to trained models
+  summary: True
+  save_model: False
+  save_best_only: False
+  load_model: False
+  backbone: 'Xception'
+  freeze_backbone: False
+  gnn1_layr: True
+  gnn2_layr: True
+HYPERPARAMETERS:
+  alpha: 0.3
+  ROIS_resolution: 42
+  minSize: 2
+  ROIS_grid_size: 3
+  pool_size: 3
+  gcn_outfeat_dim : 512
+  gat_outfeat_dim : 512
+  dropout_rate : 0.2
+  l2_reg : 2.5e-4
+  attn_heads : 1
+  appnp_activation : 'sigmoid'
+  gat_activation : 'elu'
+  concat_heads : True
+TRAIN:
+  completed_epochs: 0
+  validation_freq: 2
+  checkpoint_freq: 2
+  epochs: 150
+  lr: 0.01
+  reduce_lr_bool: True
+WANDB:
+  wb_proj_name : 'I2HOFI_CUB200'
+  run_name : 'None'
+  wandb_log : False
+  API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
+COMPLEXITY:
+  calflops: False
