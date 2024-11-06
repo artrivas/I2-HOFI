@@ -16,11 +16,11 @@ Download the dataset and place into the datasets folder. You can download from t
 - Our Repo link: [Cars Dataset](https://drive.google.com/uc?export=download&id=1DhVbnAlBaY75n6YNbyopwyPulkjszk-m)
 
 ### NABirds dataset:
-- Official link:
+- Official link: https://dl.allaboutbirds.org/nabirds
 - Our Repo link:
 
 ### Oxford Flowers dataset:
-- Official link:
+- Official link: https://www.robots.ox.ac.uk/~vgg/data/flowers/102/
 - Our Repo link:
   
 
