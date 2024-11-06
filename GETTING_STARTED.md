@@ -11,6 +11,6 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
 ## Train a Standard Model from Scratch
 Here we can start with training a 
 
-```bash
+```python
 python hofi/train.py dataset <DATASET_NAME>
 ```
