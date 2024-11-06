@@ -5,9 +5,9 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
 
 - Download and extract datasets into the required folder based on the instruction given in [DATASET.md](datasets/DATASET.md)
 
-- First navigate to the source directory from the console
+- First change the path to  the root directory from the console
   ``` bash
-  cd ./path_to_source_dir/I2-HOFI-main
+  ./path_to_root_dir/I2-HOFI-main/
   ```
 
 ## Train a Standard Model from Scratch
