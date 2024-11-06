@@ -59,7 +59,7 @@ datasets
 Please let us know if you are facing any issue with dataset download from our repo link
 
 
-
+------------------------
 
 
 # Dataset Preparation Instructions
@@ -94,24 +94,26 @@ Below are the datasets you can download and their respective sources:
 After downloading and extracting a dataset, organize it into the following structure to ensure compatibility with our code:
 
 ```bash
-datasets/
-├── DATASET1/
-│   ├── train/
-│   │   ├── train_folder1/
-│   │   ├── train_folder2/
-│   │   └── ...
-│   └── test/
-│       ├── test_folder1/
-│       ├── test_folder2/
-│       └── ...
-├── DATASET2/
-│   ├── train/
-│   │   ├── train_folder1/
-│   │   ├── train_folder2/
-│   │   └── ...
-│   └── test/
-│       ├── test_folder1/
-│       ├── test_folder2/
-│       └── ...
-└── ...
+datasets
+|_ DATASET1
+|  |_ train
+|  |  |_ train_folder1
+|  |  |_ train_folder2
+|  |  |_ ...
+|  |_ test
+|     |_ test_folder1
+|     |_ test_folder2
+|     |_ ...
+|
+|_ DATASET2
+|  |_ train
+|  |  |_ train_folder1
+|  |  |_ train_folder2
+|  |  |_ ...
+|  |_ test
+|     |_ test_folder1
+|     |_ test_folder2
+|     |_ ...
+|
+|_ ...
 ```
