@@ -12,5 +12,9 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
 Here we can start with training a 
 
 ```python
-python hofi/train.py dataset <DATASET_NAME>
+python hofi/train.py dataset DATASET_NAME
 ```
+
+DATASET_NAME can be either of `Aircraft`, `Cars`
+
+Please note the Dataset name is CASE SENSITIVE
