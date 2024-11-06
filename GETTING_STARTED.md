@@ -24,7 +24,7 @@ DATASET_NAME can be either of `Aircraft`, `Cars`, `CUB200`, `Flower102`, `NABird
 Please note the Dataset name is CASE SENSITIVE
 
 ## GPU Settings
-- For CPU (default config)
+- For running on CPU (default config)
 ```python
 python hofi/train.py dataset DATASET_NAME gpu_id -1
 ```
