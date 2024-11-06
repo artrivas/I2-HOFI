@@ -5,7 +5,7 @@ Download the dataset and place into the datasets folder. You can download from t
 
 ### Aircraft Dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
-- My repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
+- My Repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
   
 For example, after extracting the Aircraft dataset, your train and test subdirectory will look below
 ```bash
