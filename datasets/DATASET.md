@@ -4,6 +4,8 @@
 Download the dataset and place into the datasets folder. You can download from the offcial website or from the zip file from below repository. For example, after extracting the Aircraft dataset, your train and test subdirectory will look below
 ```bash
 ./root/datasets/Aircraft/train/...
+```
+```bash
 ./root/datasets/Aircraft/test/...
 ```
 
