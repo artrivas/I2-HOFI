@@ -10,7 +10,7 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
   ./path_to_root_dir/I2-HOFI-main/
   ```
 
-## Train a Standard Model from Scratch
+## Train a I2HOFI Model
 Here we can start training model by typing the following python command in the console 
 
 ```python
