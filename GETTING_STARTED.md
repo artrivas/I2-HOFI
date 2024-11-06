@@ -3,7 +3,7 @@ This document provides a brief intro of launching jobs in I2-HOFI for training a
 
 - Download the extract the github source files to ./path_to_source_dir/I2-HOFI-main
 
-- Download and extract datasets based on the instruction given in [DATASET.md](datasets/DATASET.md)
+- Download and extract datasets into the required folder based on the instruction given in [DATASET.md](datasets/DATASET.md)
 
 - First navigate to the source directory from the console
   ``` bash
