@@ -13,7 +13,7 @@ Download the dataset and place into the datasets folder. You can download from t
 
 ### Stanford Cars dataset
 - Official link: https://pytorch.org/vision/0.16/generated/torchvision.datasets.StanfordCars.html
-- Our Repo link: 
+- Our Repo link: [Cars Dataset](https://drive.google.com/uc?export=download&id=1DhVbnAlBaY75n6YNbyopwyPulkjszk-m)
 
 ### NABirds dataset:
 - Official link:
