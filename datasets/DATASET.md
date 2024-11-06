@@ -12,21 +12,24 @@ For example, after extracting the Aircraft dataset, your train and test subdirec
 ```
 
 ```bash
-ava
-|_ frames
-|  |_ [video name 0]
-|  |  |_ [video name 0]_000001.jpg
-|  |  |_ [video name 0]_000002.jpg
+datasets
+|_ DATASET1
+|  |_ train
+|  |  |_ train_folder1
+|  |  |_ train_folder2
 |  |  |_ ...
-|  |_ [video name 1]
-|     |_ [video name 1]_000001.jpg
-|     |_ [video name 1]_000002.jpg
+|  |_ test
+|     |_ test_folder1
+|     |_ test_folder2
 |     |_ ...
-|_ frame_lists
-|  |_ train.csv
-|  |_ val.csv
-|_ annotations
-   |_ [official AVA annotation files]
-   |_ ava_train_predicted_boxes.csv
-   |_ ava_val_predicted_boxes.csv
+|
+|_ DATASET2
+|  |_ train
+|  |  |_ train_folder1
+|  |  |_ train_folder2
+|  |  |_ ...
+|  |_ test
+|     |_ test_folder1
+|     |_ test_folder2
+|     |_ ...
 ```
