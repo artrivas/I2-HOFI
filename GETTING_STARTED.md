@@ -1,9 +1,11 @@
 # Getting Started with I2-HOFI
 This document provides a brief intro of launching jobs in I2-HOFI for training and testing. Before launching any job, make sure you have properly installed the required packages following the instruction in README.md
 
-- First navigate to the root directory from the console
+- Download the extract the source files ./path_to_source_dir/
+
+- First navigate to the source directory from the console
   ``` bash
-  cd path_to_root_directory
+  cd ./path_to_source_dir/
   ```
 
 ## Train a Standard Model from Scratch
