@@ -14,6 +14,10 @@ Download the dataset and place into the datasets folder. You can download from t
 ### NABird dataset:
 - Official link:
 - Our Repo link:
+
+### Flower102 dataset:
+- Official link:
+- Our Repo link:
   
 
 For example, after extracting the Aircraft dataset, your train and test subdirectory will look below
