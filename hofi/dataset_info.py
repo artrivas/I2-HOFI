@@ -3,7 +3,7 @@ def datasetInfo(dataset_name):
         nb_classes  = 196
     elif dataset_name == "Aircraft":
         nb_classes  = 100
-    elif dataset_name == "Birds2011":
+    elif dataset_name == "CUB200":
         nb_classes  = 200
     elif dataset_name == "Dogs":
         nb_classes  = 120
