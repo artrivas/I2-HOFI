@@ -94,25 +94,25 @@ Below are the datasets you can download and their respective sources:
 After downloading and extracting a dataset, organize it into the following structure to ensure compatibility with our code:
 
 ```bash
-datasets
-|_ DATASET1
-|  |_ train
-|  |  |_ train_folder1
-|  |  |_ train_folder2
+datasets/
+|_ DATASET1/
+|  |_ train/
+|  |  |_ train_folder1/
+|  |  |_ train_folder2/
 |  |  |_ ...
-|  |_ test
-|     |_ test_folder1
-|     |_ test_folder2
+|  |_ test/
+|     |_ test_folder1/
+|     |_ test_folder2/
 |     |_ ...
 |
-|_ DATASET2
-|  |_ train
-|  |  |_ train_folder1
-|  |  |_ train_folder2
+|_ DATASET2/
+|  |_ train/
+|  |  |_ train_folder1/
+|  |  |_ train_folder2/
 |  |  |_ ...
-|  |_ test
-|     |_ test_folder1
-|     |_ test_folder2
+|  |_ test/
+|     |_ test_folder1/
+|     |_ test_folder2/
 |     |_ ...
 |
 |_ ...
