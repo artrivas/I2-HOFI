@@ -10,7 +10,7 @@ For example, after extracting the Aircraft dataset, your train and test subdirec
 
 ./path_to_source_dir/I2-HOFI-main/datasets/Aircraft/test/...
 ```
-
+After you download multiple datasets, say DATASET1 and DATASET2. Your Directory structure will look something like below
 ```bash
 datasets
 |_ DATASET1
