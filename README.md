@@ -13,6 +13,11 @@ This repository implements a novel approach to FGVC using GNNs for advanced feat
 ### Link to the Paper
 You can access the full paper here : [Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition](https://link.springer.com/article/10.1007/s11263-024-02260-y)
 
+### Updates
+
+Upcomming updates here
+
+------------------------------
 ## Installation Guide
 
 ### Prerequisites
