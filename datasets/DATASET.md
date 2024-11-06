@@ -26,12 +26,11 @@ Below are the datasets you can download and their respective sources:
 - **Repository link:** [Download Flowers Dataset](https://drive.google.com/uc?export=download&id=10fFJGlCAE1NC5eGoun4nW6C6s_CpBKEH)
 
 ## Dataset Structure
-
-After downloading and extracting a dataset, organize it into the following structure to ensure compatibility with our code:
+After downloading and extracting a dataset, please organize it as shown below to ensure compatibility with our code. For example, if you have two datasets, such as `Aircraft` and `Stanford Cars`, they should be arranged into their respective `train` and `test` subdirectories within the `datasets` folder:
 
 ```bash
 datasets/
-|_ DATASET1/
+|_ Aircraft/
 |  |_ train/
 |  |  |_ train_folder1/
 |  |  |_ train_folder2/
@@ -41,7 +40,7 @@ datasets/
 |     |_ test_folder2/
 |     |_ ...
 |
-|_ DATASET2/
+|_ Cars/
 |  |_ train/
 |  |  |_ train_folder1/
 |  |  |_ train_folder2/
