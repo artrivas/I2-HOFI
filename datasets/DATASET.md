@@ -6,7 +6,16 @@ Download the dataset and place into the datasets folder. You can download from t
 ### Aircraft Dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/fgvc-aircraft/
 - Our Repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
+
+### Cars dataset
+- Official link:
+- Our Repo link:
+
+### NABird dataset:
+- Official link:
+- Our Repo link:
   
+
 For example, after extracting the Aircraft dataset, your train and test subdirectory will look below
 ```bash
 ./path_to_source_dir/I2-HOFI-main/datasets/Aircraft/train/...
