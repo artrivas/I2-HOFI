@@ -12,7 +12,7 @@ For example, after extracting the Aircraft dataset, your train and test subdirec
 ```
 After you download multiple datasets, say DATASET1 and DATASET2. Your Directory structure will look something like below
 ```bash
-./datasets
+datasets
 |_ DATASET1
 |  |_ train
 |  |  |_ train_folder1
