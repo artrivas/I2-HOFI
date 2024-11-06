@@ -47,7 +47,7 @@ This will set up your environment with the required libraries for running the pr
 ```bash
 API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
 ```
-Replace `"########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"` with your actual API key to enable WandB integration.
+Replace the string `"########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"` with your actual API key to enable WandB integration.
 
 ### Usage
 For dataset preparation, please refer to [DATASET.md](datasets/DATASET.md). For training and inference instructions, see [GETTING_STARTED.md](GETTING_STARTED.md).
