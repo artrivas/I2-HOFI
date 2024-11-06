@@ -17,7 +17,7 @@ You can access the full paper here : [Interweaving Insights: High-Order Feature 
 
 Upcomming updates here
 
-------------------------------
+======================
 ## Installation Guide
 
 ### Prerequisites
