@@ -1,4 +1,4 @@
-## Instruction to prepare datasets
+## INSTRUCTION TO PREPARE DATASETS
 
 ## Dataset Prepration
 Download the dataset and place into the datasets folder. You can download from the offcial website or directly download the organized dataset zip file from below repository in organized format to directly train and test on our code.
@@ -17,11 +17,15 @@ Download the dataset and place into the datasets folder. You can download from t
 
 ### NABirds dataset:
 - Official link: https://dl.allaboutbirds.org/nabirds
-- Our Repo link:
+- Our Repo link: [NABirds Dataset](https://drive.google.com/uc?export=download&id=1B7eYvXTXNGrJcMDySU62U-RGXF9b-5zh)
+
+- https://drive.google.com/file/d/1B7eYvXTXNGrJcMDySU62U-RGXF9b-5zh/view?usp=sharing
 
 ### Oxford Flowers dataset:
 - Official link: https://www.robots.ox.ac.uk/~vgg/data/flowers/102/
-- Our Repo link:
+- Our Repo link: [Flowers Dataset](https://drive.google.com/uc?export=download&id=10fFJGlCAE1NC5eGoun4nW6C6s_CpBKEH)
+
+- https://drive.google.com/file/d/10fFJGlCAE1NC5eGoun4nW6C6s_CpBKEH/view?usp=sharing
   
 
 For example, after extracting the Aircraft dataset, your train and test subdirectory will look below
