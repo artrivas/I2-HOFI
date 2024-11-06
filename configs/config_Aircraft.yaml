@@ -39,8 +39,9 @@ TRAIN:
   lr: 0.01
   reduce_lr_bool: True
 WANDB:
-  wb_proj_name : 'I2HOFI'
+  wb_proj_name : 'I2HOFI_Aircraft'
   run_name : 'None'
   wandb_log : False
+  API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY #################"
 COMPLEXITY:
   calflops: False
