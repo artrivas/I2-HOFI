@@ -34,7 +34,7 @@ python hofi/train.py dataset DATASET_NAME gpu_id 0 gpu_utilisation 0.8
 ```
 
 ## Other Configuration setting
-- To set batch size of 16 from console
+- To set batch size of 16 from console or modify directly on config files
  ```python
 python hofi/train.py dataset DATASET_NAME batch_size 16
 ```
