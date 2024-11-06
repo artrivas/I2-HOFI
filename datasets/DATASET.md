@@ -53,4 +53,4 @@ datasets/
 |
 |_ ...
 ```
-If you have suggestions for enhancing the dataset download process or any other aspects of our project, or if you experience any difficulties while using these resources, please let us know by creating an issue in this repository.
+If you encounter difficulties while downloading datasets from our repository, or if you have suggestions for improving the download process, please feel free to create an issue in this repository. Your detailed feedback is essential for us to make necessary adjustments and enhance the usability of our code.
