@@ -8,7 +8,7 @@ Download the dataset and place into the datasets folder. You can download from t
 - Our Repo link: [Aircraft Dataset](https://drive.google.com/uc?export=download&id=1v_cOB1gOIneI-Y1vJC7WUSvwH2FP9qCS)
 
 ### Caltech-UCSD Birds (CUB-200):
-- Official link:
+- Official link: https://data.caltech.edu/records/65de6-vp158
 - Our Repo link:
 
 ### Stanford Cars dataset
