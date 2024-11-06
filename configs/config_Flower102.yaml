@@ -42,6 +42,6 @@ WANDB:
   wb_proj_name : 'I2HOFI_Flower102'
   run_name : 'None'
   wandb_log : False
-  API_key: "8715199f6fcbb8ed75e907b1c50667c3fb756097" #"########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
+  API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
 COMPLEXITY:
   calflops: False
