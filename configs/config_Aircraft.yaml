@@ -24,9 +24,13 @@ MODEL:
   save_best_only: False
   # Load Model from checkpoint (to restart training)
   load_model: False
+  # Backbone model
   backbone: 'Xception'
+  # Freeze bacbone model (with pre-trained weights, such as ImageNet Weights)
   freeze_backbone: False
+  # Enable/Disable GNN layer 1 (as a part of the model)
   gnn1_layr: True
+  # Enable/Disable GNN layer 2 (as a part of the model)
   gnn2_layr: True
 HYPERPARAMETERS:
   alpha: 0.3
