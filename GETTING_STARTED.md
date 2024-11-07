@@ -83,6 +83,6 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
      ```
      See [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121).
 
-Refer to the [tf.keras.applications](https://www.tensorflow.org/api_docs/python/tf/keras/applications) for a complete list of available models. The I2-HOFI model requires backbone models with channel dimensions in multiples of \(2^n\), where \(n\) is an integer. For models with different channel dimensions, add a convolutional layer to adjust them to the nearest multiple of \(2^n\). Note that optimal configuration settings may vary between different backbone models compared to Xception.
+Refer to the [tf.keras.applications](https://www.tensorflow.org/api_docs/python/tf/keras/applications) for a complete list of available models. The I2-HOFI model requires backbone models with channel dimensions in multiples of `2^n`, where `n` is an integer. For models with different channel dimensions, add a convolutional layer to adjust them to the nearest multiple of `2^n`. Note that optimal configuration settings may vary between different backbone models compared to Xception.
 
 Ensure that each step is followed correctly to facilitate a smooth setup and execution of training jobs in I2-HOFI.
