@@ -309,28 +309,30 @@ class I2HOFI(Params):
             layers.Lambda(self._temp_nodes_transform), name='TD_Layer2'
         )
 
-        # First GNN layer using APPNP
-        self.tgcn_1 = APPNPConv(
-            self.gcn_outfeat_dim, 
-            alpha = self.alpha, 
-            propagations = 1, 
-            mlp_activation = self.appnp_activation, 
-            use_bias = True, 
-            name = 'GNN_1'
-        )
-
-        # Second GNN layer using GAT
-        self.tgcn_2 = GATConv(
-            self.gat_outfeat_dim,
-            attn_heads = self.attn_heads,
-            concat_heads = self.concat_heads,
-            dropout_rate = self.dropout_rate,
-            activation = self.gat_activation,
-            kernel_regularizer = l2(self.l2_reg),
-            attn_kernel_regularizer = l2(self.l2_reg),
-            bias_regularizer = l2(self.l2_reg), 
-            name = 'GNN_2'
+        if self.gnn1_layr:
+            # First GNN layer using APPNP
+            self.tgcn_1 = APPNPConv(
+                self.gcn_outfeat_dim, 
+                alpha = self.alpha, 
+                propagations = 1, 
+                mlp_activation = self.appnp_activation, 
+                use_bias = True, 
+                name = 'GNN_1'
             )
+
+        if self.gnn2_layr:
+            # Second GNN layer using GAT
+            self.tgcn_2 = GATConv(
+                self.gat_outfeat_dim,
+                attn_heads = self.attn_heads,
+                concat_heads = self.concat_heads,
+                dropout_rate = self.dropout_rate,
+                activation = self.gat_activation,
+                kernel_regularizer = l2(self.l2_reg),
+                attn_kernel_regularizer = l2(self.l2_reg),
+                bias_regularizer = l2(self.l2_reg), 
+                name = 'GNN_2'
+                )
 
         # Dropout layer applied after combining all intra- and inter-ROI nodes     
         self.roi_droput_2 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_2')
