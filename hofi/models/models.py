@@ -1,13 +1,13 @@
+# Importing tensorflow pacakages
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.backend as K
-from tensorflow.keras.layers import Input, Dropout, Flatten, LSTM, Dense, Lambda, Conv2D
 from tensorflow.keras import layers, Model
 from tensorflow.keras.regularizers import l2
 
+# Importing necessary packages from spektral
 from spektral.utils.sparse import sp_matrix_to_sp_tensor 
-from spektral.layers import GCNConv, APPNPConv, GATConv # diffent convolution layers
-from spektral.layers import GlobalAttentionPool, GlobalAttnSumPool # different pooling layers
+from spektral.layers import GCNConv, APPNPConv, GATConv, GlobalAttentionPool
 from spektral.utils import normalized_adjacency
 
 # from user-defined scripts
@@ -26,7 +26,6 @@ class Params(Model):
         nb_classes=None,
         batch_size=None,
         input_sh = (224, 224, 3),
-        cnodes = 32,
         gcn_outfeat_dim = 256,
         gat_outfeat_dim = 256,
         dropout_rate = 0.2,
@@ -40,8 +39,7 @@ class Params(Model):
         gnn1_layr = True,
         gnn2_layr = True,
         track_feat = False,
-        *args,
-        **kwargs
+        *args, **kwargs
         ):
         super().__init__(*args, **kwargs)
         self.pool_size = pool_size
@@ -52,7 +50,6 @@ class Params(Model):
         self.nb_classes = nb_classes
         self.batch_size = batch_size
         self.input_sh = input_sh
-        self.cnodes = cnodes
         self.gcn_outfeat_dim = gcn_outfeat_dim
         self.gat_outfeat_dim = gat_outfeat_dim
         self.dropout_rate = dropout_rate
@@ -85,6 +82,8 @@ class Params(Model):
 # ############################# Model Definations ################################ #
 # ################################################################################ #
 
+# ############################## BASE_CNN Class ################################## #
+
 class BASE_CNN(Params):
     def __init__(self,  *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -95,7 +94,7 @@ class BASE_CNN(Params):
     def _construct_layers(self):
         # Add a custom classification head
         self.GAP_layer = layers.GlobalAveragePooling2D()
-        self.dense = layers.Dense(self.nb_classes, activation="softmax")  #  nb_classes, softmax activation
+        self.dense = layers.Dense(self.nb_classes, activation="softmax")  #  Final dense layer with softmax activation
         
     def call(self, inputs):
         base_out = self.base_model(inputs)
@@ -109,11 +108,14 @@ class BASE_CNN(Params):
         
         return x
 
-##################################### GATConv, SC_GNN_COMB ########################################
+# ############################ Custom GATConv, I2HOFI ############################### #
+
 class GATConv(GATConv):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # print('==========> CUSTOM GATconv Class <==========')
+        '''
+        Modified _call_dense for compatibility recent TF package
+        '''
 
     def _call_dense(self, x, a):
         shape = tf.shape(a)[:-1]
@@ -177,11 +179,11 @@ class I2HOFI(Params):
 
         A1 = np.ones((self.cnodes, self.cnodes), dtype = 'int') # CA = np.ones((N,N), dtype='int')
         cfltr1 = GCNConv.preprocess(A1).astype('f4')
-        A_intra = Input(tensor=sp_matrix_to_sp_tensor(cfltr1), name = 'AdjacencyMatrix1') 
+        A_intra = layers.Input(tensor=sp_matrix_to_sp_tensor(cfltr1), name = 'AdjacencyMatrix1') 
 
         A2 = np.ones((self.num_rois + 1, self.num_rois + 1), dtype = 'int') # CA = np.ones((N,N), dtype='int')
         cfltr2 = GCNConv.preprocess(A2).astype('f4')
-        A_inter = Input(tensor=sp_matrix_to_sp_tensor(cfltr2), name = 'AdjacencyMatrix2') 
+        A_inter = layers.Input(tensor=sp_matrix_to_sp_tensor(cfltr2), name = 'AdjacencyMatrix2') 
 
         self.Adj = [A_intra, A_inter]
         # print('////////////// shape pf adj1, adj2', self.Adj[0].shape, self.Adj[1].shape)
@@ -373,7 +375,6 @@ class I2HOFI(Params):
         
         # Track Gated Attention pooled features for t-SNE computation
         if self.track_feat:
-            print('__________ track_feat 04 is active!')
             self.GlobAttpool_feat = tf.identity(xf)
 
         xf = self.BN2(xf)
