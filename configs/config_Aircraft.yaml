@@ -1,14 +1,15 @@
 DATA:
+  # Dataset name
   dataset: 'Aircraft'
-  # path to Dataset DIRECTORY
+  # Directory path to dataset
   rootdir: './datasets/'             
-  # INPUT IMAGE DIMENSION
+  # INPUT IMAGE DIMENSIONS
   image_size: [224, 224, 3]
   
 HARDWARE:
-  # CPU : -1 and GPU: 0/1
+  # GPU ID: -1 for CPU, 0/1 for GPU
   gpu_id: -1
-  # fraction of GPU to use range [0, 1]
+  # Fraction of GPU memory to use b/w [0, 1]
   gpu_utilisation: 1  
   
 MODEL:
