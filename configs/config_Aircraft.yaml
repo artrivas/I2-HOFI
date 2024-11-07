@@ -47,18 +47,30 @@ HYPERPARAMETERS:
   gcn_outfeat_dim : 512
   # GAT output node feature dimension
   gat_outfeat_dim : 512
+  # dropout rate use everywhere
   dropout_rate : 0.2
+  # L2 regularization in GATconv layer
   l2_reg : 2.5e-4
+  # No. of heads to use in GAT attention
   attn_heads : 1
+  # MLP activation in APPNP
   appnp_activation : 'sigmoid'
+  # Activation to apply to GAT output
   gat_activation : 'elu'
+  # Whether to concatenate or sum output if head > 1 used in GAT
   concat_heads : True
 TRAIN:
+  # To Restart training from a checkpoint epoch
   completed_epochs: 0
+  # Frequency compute validation accuracy
   validation_freq: 2
+  # Frequency save checkpoint
   checkpoint_freq: 2
+  # Total training epochs
   epochs: 150
+  # Initial Learning Rate (LR)
   lr: 0.01
+  # Apply Step LR
   reduce_lr_bool: True
 WANDB:
   wb_proj_name : 'I2HOFI_Aircraft'
