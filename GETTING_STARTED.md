@@ -74,7 +74,7 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
 ### GPU Configuration
 
 - **For CPU Usage:**
-  - Run the following command to train using CPU:
+  - Run the following command to train using CPU (default setting):
     ```python
     python hofi/train.py dataset DATASET_NAME gpu_id -1
     ```
