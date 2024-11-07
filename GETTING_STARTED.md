@@ -2,7 +2,7 @@
 
 This document provides an introduction on how to launch training and testing jobs using I2-HOFI. Ensure that all required packages are installed by following the instructions provided in the [README.md](README.md) file.
 
-### Setup Instructions
+## Setup Instructions
 
 1. **Clone and Set Up the Repository:**
    - Clone the repository and extract the source files to `path_to_root_dir/I2-HOFI-main`. After extraction you will have the following directory structure:
