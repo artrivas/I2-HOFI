@@ -1,7 +1,9 @@
 DATA:
   dataset: 'Aircraft'
-  rootdir: './datasets/'             # path to Dataset ROOT DIRECTORY
-  image_size: [224, 224, 3]          # INPUT IMAGE DIMENSION
+  # path to Dataset DIRECTORY
+  rootdir: './datasets/'             
+  # INPUT IMAGE DIMENSION
+  image_size: [224, 224, 3]          
 HARDWARE:
   # CPU : -1 and GPU: 0/1
   gpu_id: -1
