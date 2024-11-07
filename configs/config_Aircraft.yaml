@@ -21,7 +21,7 @@ MODEL:
   save_model: False
   # To Save model with best validation accuracy (overwriting previous best)
   save_best_only: False
-  # Load Model from checkpoint
+  # Load Model from checkpoint (to restart training)
   load_model: False
   backbone: 'Xception'
   freeze_backbone: False
