@@ -66,7 +66,7 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```
     
 - **Training with Different Backbone Models:**
-  - You can train the I2HOFI framework with various backbone models from the `tf.keras.applications` library by adjusting the training command as follows:
+  - You can train the I2HOFI framework with various backbone models from the [`tf.keras.applications`](https://www.tensorflow.org/api_docs/python/tf/keras/applications) library by adjusting the training command as follows:
     ```python
     python hofi/train.py --dataset DATASET_NAME --backbone MODEL_NAME
     ```
