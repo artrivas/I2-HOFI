@@ -1,6 +1,6 @@
 # Dataset Preparation Instructions
 
-Follow these steps to download and organize the datasets required for training and testing the models. You have the option to download directly from the official sources or use organized versions available through provided repository links.
+Follow these steps to download and organize the datasets required for training and testing the models in the `datasets` folder. You have the option to download directly from the official sources or use organized versions available through provided repository links.
 
 ## Available Datasets
 Below are the datasets you can download and their respective sources:
