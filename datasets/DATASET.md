@@ -32,22 +32,22 @@ After downloading and extracting a dataset, please organize it as shown below to
 datasets/
 |_ Aircraft/
 |  |_ train/
-|  |  |_ train_folder1/
-|  |  |_ train_folder2/
+|  |  |_ train_label1/
+|  |  |_ train_label2/
 |  |  |_ ...
 |  |_ test/
-|     |_ test_folder1/
-|     |_ test_folder2/
+|     |_ test_label1/
+|     |_ test_label2/
 |     |_ ...
 |
 |_ Cars/
 |  |_ train/
-|  |  |_ train_folder1/
-|  |  |_ train_folder2/
+|  |  |_ train_label1/
+|  |  |_ train_label2/
 |  |  |_ ...
 |  |_ test/
-|     |_ test_folder1/
-|     |_ test_folder2/
+|     |_ test_label1/
+|     |_ test_label2/
 |     |_ ...
 |
 |_ ...
