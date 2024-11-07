@@ -3,15 +3,23 @@ DATA:
   rootdir: './datasets/'             # path to Dataset ROOT DIRECTORY
   image_size: [224, 224, 3]          # INPUT IMAGE DIMENSION
 HARDWARE:
-  gpu_id: -1                          # CPU : -1 and GPU: 0/1
-  gpu_utilisation: 1                  # fraction of GPU to use range [0, 1]
+  # CPU : -1 and GPU: 0/1
+  gpu_id: -1
+  # fraction of GPU to use range [0, 1]
+  gpu_utilisation: 1                  
 MODEL:
+  # Set Batch size
   batch_size: 8
-  model_name: 'i2hofi'                # MODELS --> 'basecnn'; 'i2hofi'
+  # set model architecture, model_name available --> 'basecnn'; 'i2hofi'
+  model_name: 'i2hofi'                
   checkpoint_path: 'TrainedModels/'   # PATH to trained models
-  summary: True                       # Print Model Summary
+  # Print model summary
+  summary: True
+  # To Save model at every checkpoint frequency
   save_model: False
+  # To Save model with best validation accuracy (overwriting previous best)
   save_best_only: False
+  # Load Model from checkpoint
   load_model: False
   backbone: 'Xception'
   freeze_backbone: False
