@@ -39,6 +39,7 @@ class Params(Model):
         freeze_backbone = None,
         gnn1_layr = True,
         gnn2_layr = True,
+        track_feat = False,
         *args,
         **kwargs
         ):
@@ -62,6 +63,7 @@ class Params(Model):
         self.concat_heads = concat_heads
         self.gnn1_layr = gnn1_layr
         self.gnn2_layr = gnn2_layr
+        self.track_feat = track_feat
             
         base_model_class = getattr(tf.keras.applications, backbone)  # Backbone call directly from tf.keras.applications
         self.base_model = base_model_class(
@@ -100,8 +102,8 @@ class BASE_CNN(Params):
         x_gap = self.GAP_layer(base_out)
         x = self.dense(x_gap)
         
-        track_bool = True
-        if track_bool:
+        # Track features for t-SNE computation
+        if self.track_feat:
             self.base_out = tf.identity(base_out)
             self.GlobAttpool_feat = tf.identity(x_gap)
         
@@ -286,9 +288,11 @@ class I2HOFI(Params):
         return jcvs
         
     def call(self, inputs):
-        track_bool = True  # boolean to track features or not
+        # Input to base model
         base_out = self.base_model(inputs)
-        if track_bool:
+
+        # Track base features for t-SNE computation
+        if self.track_feat:  
             self.base_out = tf.identity(base_out)
         
         x0 = self.upsampling_layer(base_out) # x0 = full_image
@@ -324,7 +328,9 @@ class I2HOFI(Params):
 
         x2_intra = tf.concat(xcoll, axis=1)
         # print('x2 shape after  self.tgcn_2 (intra) ---> ', x2_intra.shape )
-        if track_bool:
+        
+        # Track intra-roi features for t-SNE computation
+        if self.track_feat:
             self.x2_intra = tf.identity(x2_intra)
 
         # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Inter 
@@ -350,7 +356,9 @@ class I2HOFI(Params):
 
         x2_inter = tf.concat(xcoll, axis=1)
         # print('x2 shape after  self.tgcn_2 (inter) ---> ', x2_inter.shape )
-        if track_bool:
+        
+        # Track inter-roi features for t-SNE computation
+        if self.track_feat:
             self.x2_inter = tf.identity(x2_inter)
         # ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -362,7 +370,10 @@ class I2HOFI(Params):
 
         xf = self.GlobAttpool(x3)
         # print('xf shape after GAattP ---> ', xf.shape, K.eval(tf.rank(xf)))
-        if track_bool:
+        
+        # Track Gated Attention pooled features for t-SNE computation
+        if self.track_feat:
+            print('__________ track_feat 04 is active!')
             self.GlobAttpool_feat = tf.identity(xf)
 
         xf = self.BN2(xf)
