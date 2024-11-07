@@ -81,12 +81,6 @@ if len(sys.argv) > 2:
         except:
             exec("{} = '{}'".format(var_name, new_val))
 
-# print(' ')
-# print('~~~~~~~~~~ << After updating with user parameters from console >> ~~~~~~~~~~~~~ ')
-# for v in all_vars:
-#     print(v, ':', globals()[v])
-# print(' ')
-
 """  << Fetcing directory info >>  """ 
 dataset_dir, train_data_dir, val_data_dir, output_model_dir, metrics_dir, nb_train_samples, validation_steps = process_dir(rootdir, dataset, model_name)
 nb_classes = datasetInfo(dataset)
