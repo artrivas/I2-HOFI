@@ -76,7 +76,7 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```
     Please note that MODEL_NAME is case sensitive,
     - For instance for resnet50 its `ResNet50`, as given in the tensorflow docs of [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50)
-    - For densenet121  its `DenseNet121`, as given in the tensorflow docs of [tf.keras.applications.DenseNet121]([https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121))
+    - For densenet121  its `DenseNet121`, as given in the tensorflow docs of [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121)
     
   
   
