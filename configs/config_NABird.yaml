@@ -77,7 +77,11 @@ TRAIN:
   lr: 0.01
   # Flag to apply step LR reduction
   reduce_lr_bool: True
-  
+
+VISUALIZE:
+  # Flag to track feature for t-SNE visualization
+  track_feat: False
+ 
 WANDB:
   # WandB project name
   wb_proj_name : 'I2HOFI_NABird'
