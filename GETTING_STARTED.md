@@ -1,6 +1,6 @@
 # Getting Started with I2-HOFI
 
-This document provides an introduction on how to launch training and testing jobs using I2-HOFI. Ensure that all required packages are installed by following the instructions provided in the README.md file.
+This document provides an introduction on how to launch training and testing jobs using I2-HOFI. Ensure that all required packages are installed by following the instructions provided in the [README.md](README.md) file.
 
 ### Setup Instructions
 
