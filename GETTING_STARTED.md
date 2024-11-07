@@ -71,17 +71,17 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     python hofi/train.py --dataset DATASET_NAME --backbone MODEL_NAME
     ```
     Here, `MODEL_NAME` should match the exact case-sensitive name as it appears in the TensorFlow documentation. For example:
-     - For resnet50, use:
+   - For resnet50, use:
      ```bash
      python hofi/train.py --dataset DATASET_NAME --backbone ResNet50
      ```
      See [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50).
 
-      - For densenet121, use:
-        ```bash
-        python hofi/train.py --dataset DATASET_NAME --backbone DenseNet121
-        ```
-        See [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121).
+   - For densenet121, use:
+     ```bash
+     python hofi/train.py --dataset DATASET_NAME --backbone DenseNet121
+     ```
+     See [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121).
 
 
 ------------------
