@@ -64,5 +64,12 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```python
     python hofi/train.py dataset DATASET_NAME batch_size 16
     ```
+    
+- **Training with Different Backbone Models:**
+  - To use the `I2HOFI` framework with a backbone model other than Xception, you can specify another model, such as ResNet50, in the training command:
+    ```python
+    python hofi/train.py --dataset DATASET_NAME --backbone Resnet50
+    ```
+  Please note that the optimal configuration settings may vary between different backbone models compared to Xception.
 
 Ensure that each step is followed correctly to facilitate a smooth setup and execution of training jobs in I2-HOFI.
