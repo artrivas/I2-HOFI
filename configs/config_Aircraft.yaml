@@ -9,7 +9,7 @@ MODEL:
   batch_size: 8
   model_name: 'i2hofi'                # MODELS --> 'basecnn'; 'i2hofi'
   checkpoint_path: 'TrainedModels/'   # PATH to trained models
-  summary: True
+  summary: True                       # Print Model Summary
   save_model: False
   save_best_only: False
   load_model: False
