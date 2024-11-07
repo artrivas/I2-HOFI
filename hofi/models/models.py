@@ -62,10 +62,8 @@ class Params(Model):
         self.concat_heads = concat_heads
         self.gnn1_layr = gnn1_layr
         self.gnn2_layr = gnn2_layr
-        
-        
-        # print('~~~~~~~~~~~~~~~~~~~~~~~~~~ BACKBONE CALL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ', backbone)       
-        base_model_class = getattr(tf.keras.applications, backbone)
+            
+        base_model_class = getattr(tf.keras.applications, backbone)  # Backbone call directly from tf.keras.applications
         self.base_model = base_model_class(
             weights="imagenet",
             input_tensor = layers.Input( shape = self.input_sh ), 
