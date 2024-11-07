@@ -230,7 +230,7 @@ class I2HOFI(Params):
             propagations = 1, 
             mlp_activation = self.appnp_activation, 
             use_bias = True, 
-            name = 'GNN_Lyr1'
+            name = 'GNN_1'
         )
 
         self.tgcn_2 = GATConv(
@@ -242,7 +242,7 @@ class I2HOFI(Params):
             kernel_regularizer = l2(self.l2_reg),
             attn_kernel_regularizer = l2(self.l2_reg),
             bias_regularizer = l2(self.l2_reg), 
-            name = 'GNN_Lyr2'
+            name = 'GNN_2'
             )
 
         """ Dropout layer (after combining all nodes from inter and intra) """       
