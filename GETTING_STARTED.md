@@ -9,12 +9,12 @@ This document provides an introduction on how to launch training and testing job
    ```bash
    path_to_root_dir/
       |_ I2-HOFI-main/
-         |_ configs/
-         |_ datasets/
-         |_ hofi/
-         |_ media/
-         |_ GETTING_STARTED.md
-         |_ README.md
+            |_ configs/
+            |_ datasets/
+            |_ hofi/
+            |_ media/
+            |_ GETTING_STARTED.md
+            |_ README.md
    ```
 2. **Configure Settings:**
    - Update the `configs/config_DATASET_NAME.yaml` configuration file with your WandB API key to enable logging of `training` and `validation` metrics in WandB.
