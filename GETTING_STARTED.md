@@ -29,7 +29,7 @@ This document provides an introduction on how to launch training and testing job
      cd path_to_root_dir/I2-HOFI-main/
      ```
 
-### Training the I2HOFI Model
+## Training the I2HOFI Model
 
 To start training the model, execute the following command in the terminal:
 
@@ -38,7 +38,7 @@ python hofi/train.py dataset DATASET_NAME
 ```
 Replace `DATASET_NAME` with one of the following dataset identifiers, noting that they are case-sensitive: `Aircraft`, `Cars`, `CUB200`, `Flower102`, `NABird`.
 
-### GPU Configuration
+## GPU Configuration
 
 - **For CPU Usage:**
   - Run the following command to train using CPU (default setting):
@@ -57,7 +57,7 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```
     Replace `0` with the appropriate GPU ID as needed.
 
-### Additional Configuration Settings
+## Additional Configuration Settings
 
 - **Set Batch Size:**
   - To configure the batch size to 16 via the command line (or modify directly in the config files):
