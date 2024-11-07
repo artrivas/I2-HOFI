@@ -84,52 +84,6 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
      See [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121).
 
 
-------------------
-    
-  - MODEL_NAME can be anything available as a part of [`tf.keras.applications`](https://www.tensorflow.org/api_docs/python/tf/keras/applications) library. For instance, want to call the resnet50 you simply need to type the following command
-    ```python
-    python hofi/train.py --dataset DATASET_NAME --backbone ResNet50
-    ```
-    Please note that MODEL_NAME is case sensitive,
-    - For instance for resnet50 its `ResNet50`, as given in the tensorflow docs of [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50)
-    - For densenet121  its `DenseNet121`, as given in the tensorflow docs of [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121)
-   
-Here's a revised version of your instructions to make them more concise and clear:
-
----
-
-**Switching Backbone Models in the I2HOFI Framework**
-
-You can train the I2HOFI framework with various backbone models from the `tf.keras.applications` library by adjusting the training command as follows:
-
-```bash
-python hofi/train.py --dataset DATASET_NAME --backbone MODEL_NAME
-```
-
-Here, `MODEL_NAME` should match the exact case-sensitive name as it appears in the TensorFlow documentation. For example:
-
-- For ResNet50, use:
-  ```bash
-  python hofi/train.py --dataset DATASET_NAME --backbone ResNet50
-  ```
-  See [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50).
-
-- For DenseNet121, use:
-  ```bash
-  python hofi/train.py --dataset DATASET_NAME --backbone DenseNet121
-  ```
-  See [tf.keras.applications.DenseNet121](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121).
-
-Refer to the [`tf.keras.applications`](https://www.tensorflow.org/api_docs/python/tf/keras/applications) page for a complete list of available models.
-
-
-    
-
-
-
-
-  
-  
-  Please note that the optimal configuration settings may vary between different backbone models compared to Xception.
+Refer to the [`tf.keras.applications`](https://www.tensorflow.org/api_docs/python/tf/keras/applications) page for a complete list of available models. Please note that the optimal configuration settings may vary between different backbone models compared to Xception.
 
 Ensure that each step is followed correctly to facilitate a smooth setup and execution of training jobs in I2-HOFI.
