@@ -16,7 +16,7 @@ This document provides an introduction on how to launch training and testing job
          |_ GETTING_STARTED.md
          |_ README.md
    ```
-   Replace `your_directory` in the path `./your_directory/I2-HOFI-main` with the actual path where you have extracted the repository files.
+   Replace `path_to_root_dir` in the path `./path_to_root_dir/I2-HOFI-main` with the full path where you have extracted the repository files.
 2. **Configure Settings:**
    - Update the `configs/config_DATASET_NAME.yaml` configuration file with your WandB API key to enable logging of `training` and `validation` metrics in WandB.
 
