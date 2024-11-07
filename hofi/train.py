@@ -159,6 +159,7 @@ model = construct_model(
     freeze_backbone = freeze_backbone,  # Option to Freeze the backbone while training appended GNN framework
     gnn1_layr = gnn1_layr,
     gnn2_layr = gnn2_layr,
+    track_feat = track_feat,
     )
 
 # Giga-flops calculation or Train
