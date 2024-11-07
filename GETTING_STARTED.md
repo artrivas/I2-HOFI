@@ -51,7 +51,7 @@ This document provides an introduction on how to launch training and testing job
    - Clone the repository and extract the source files to `./path_to_source_dir/I2-HOFI-main`.
 
 2. **Configure Settings:**
-   - Update the configuration file `configs/config_DATASET_NAME.yaml` with your WandB API key to log `train` and `validation` metrics.
+   - Update the `configs/config_DATASET_NAME.yaml` configuration file with your WandB API key to enable logging of `training` and `validation` metrics in WandB.
 
 3. **Prepare Data:**
    - Follow the instructions in [DATASET.md](datasets/DATASET.md) to download and extract the datasets into the specified directories.
