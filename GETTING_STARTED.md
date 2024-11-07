@@ -26,7 +26,7 @@ This document provides an introduction on how to launch training and testing job
 4. **Navigate to the Project Directory:**
    - Open your terminal and change the directory to the root of the project:
      ```bash
-     cd ./path_to_root_dir/I2-HOFI-main/
+     cd path_to_root_dir/I2-HOFI-main/
      ```
 
 ### Training the I2HOFI Model
