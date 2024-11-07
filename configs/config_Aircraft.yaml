@@ -13,81 +13,81 @@ HARDWARE:
   gpu_utilisation: 1  
   
 MODEL:
-  # Set Batch size
+  # Training/validation batch size
   batch_size: 8
-  # set model architecture, model_name available --> 'basecnn'; 'i2hofi'
+  # Model architecture, model_name available --> 'basecnn'; 'i2hofi'
   model_name: 'i2hofi'
   # PATH to trained models (to load from a particular checkpoint)
   checkpoint_path: 'TrainedModels/'   
   # Print model summary
   summary: True
-  # To Save model at every checkpoint frequency
+  # Save model at every checkpoint frequency
   save_model: False
-  # To Save model with best validation accuracy (overwriting previous best)
+  # Save model with best validation accuracy (overwriting previous best)
   save_best_only: False
-  # Load Model from checkpoint (to restart training)
+  # Load Model and resume training from a checkpoint epoch
   load_model: False
   # Backbone model
   backbone: 'Xception'
-  # Freeze bacbone model (with pre-trained weights, such as ImageNet Weights)
+  # Freeze loaded pre-trained backbone weights (such as ImageNet Weights) 
   freeze_backbone: False
-  # Enable/Disable GNN layer 1 (as a part of the model)
+  # Enable/Disable GNN layer 1
   gnn1_layr: True
-  # Enable/Disable GNN layer 2 (as a part of the model)
+  # Enable/Disable GNN layer 2
   gnn2_layr: True
   
 HYPERPARAMETERS:
   # Teleport probability in APPNP (gamma in the paper)
   alpha: 0.3
-  # Upscale Resolution of backbone output feature map resolution
+  # Upscale resolution of backbone output
   ROIS_resolution: 42
-  # Mimimum spatial allowed dimension of each roi when pooling
+  # Minimum dimension of each ROI
   minSize: 2
-  # Grids to break Upsampled Feature horizontally and vertically
+  # Grid to split upsampled feature (horizontally and vertically)
   ROIS_grid_size: 3
-  # ROI resolution after pooling and resizing (default: 3 x 3)
+  # Pooled ROI resolution after resizing (default: 3 x 3)
   pool_size: 3
-  # APPNP node feature dimension
+  # Output feature dimension of APPNP
   gcn_outfeat_dim : 512
-  # GAT output node feature dimension
+  # Output feature dimension of GAT
   gat_outfeat_dim : 512
-  # dropout rate use everywhere
+  # Dropout rate
   dropout_rate : 0.2
-  # L2 regularization in GATconv layer
+  # L2 regularization for GATConv layer
   l2_reg : 2.5e-4
-  # No. of heads to use in GAT attention
+  # Number of heads in GAT attention
   attn_heads : 1
-  # MLP activation in APPNP
+  # MLP activation function in APPNP
   appnp_activation : 'sigmoid'
-  # Activation to apply to GAT output
+  # Activation function for GAT output
   gat_activation : 'elu'
-  # Whether to concatenate or sum output if head > 1 used in GAT
+  # Method to combine GAT heads output: Concatenate (True) or Sum (False)
   concat_heads : True
   
 TRAIN:
   # To Restart training from a checkpoint epoch
   completed_epochs: 0
-  # Frequency compute validation accuracy
+  # Epoch frequency for computing validation accuracy
   validation_freq: 2
-  # Frequency save checkpoint
+  # Epoch frequency to save checkpoints
   checkpoint_freq: 2
   # Total training epochs
   epochs: 150
   # Initial Learning Rate (LR)
   lr: 0.01
-  # Apply Step LR
+  # Flag to apply step LR reduction
   reduce_lr_bool: True
   
 WANDB:
-  # Project Name to Register to WandB
+  # WandB project name
   wb_proj_name : 'I2HOFI_Aircraft'
-  # Set Run name to appear in WandB
+  # WandB run name
   run_name : 'None'
-  # Condition whether to log in WandB
+  # Flag to log data to WandB
   wandb_log : False
   # WandB API key
   API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
   
 COMPLEXITY:
-  # Compute computatioal complexity of model
+  # Compute model computational complexity
   calflops: False
