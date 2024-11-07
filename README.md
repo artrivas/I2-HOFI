@@ -15,7 +15,7 @@ You can access the full paper here : [Interweaving Insights: High-Order Feature 
 
 ### Upcoming Updates
 We're preparing to release several enhancements soon:
-- Pre-trained model weights for the datasets described in [DATASET.md](datasets/DATASET.md) to facilitate result reproduction.
+- Pre-trained model weights trained on different the datasets to facilitate result reproduction.
 - An inference script for reproducing the results.
 - Releasing t-SNE plotting code for visualization and analysis of model outputs.
 
