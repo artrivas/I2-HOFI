@@ -212,15 +212,15 @@ class I2HOFI(Params):
         self.roi_pooling = RoiPoolingConv(pool_size = self.pool_size, num_rois = self.num_rois, rois_mat = self.rois_mat)
 
         """ Dropout layers (after ROI pooling) """
-        self.roi_droput_1 = tf.keras.layers.Dropout(self.dropout_rate, name='Dout1')
+        self.roi_droput_1 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_1')
 
         """  Time distributed layer applied to roi pooling """
         self.timedist_layer1 = layers.TimeDistributed(
-            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)), name='TD_Lyr1'
+            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)), name='TD_LYR1'
         )
 
         self.timedist_layer2 = layers.TimeDistributed(
-            layers.Lambda(self._temp_nodes_tranform), name='TD_Lyr2'
+            layers.Lambda(self._temp_nodes_tranform), name='TD_LYR2'
         )
 
         ######### Temporal GCN layers
@@ -246,7 +246,7 @@ class I2HOFI(Params):
             )
 
         """ Dropout layer (after combining all nodes from inter and intra) """       
-        self.roi_droput_2 = tf.keras.layers.Dropout(self.dropout_rate, name='Dout2')
+        self.roi_droput_2 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_2')
 
         """ Final layers """
         self.GlobAttpool = GlobalAttentionPool(self.gcn_outfeat_dim * 2, name = 'GlobalAttnPool')
