@@ -70,15 +70,16 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```python
     python hofi/train.py --dataset DATASET_NAME --backbone MODEL_NAME
     ```
-  - MODEL_NAME can be anything available as a part of `tf.keras.applications` library. For instance, want to call the resnet50 you simply need to type the following command
+  - MODEL_NAME can be anything available as a part of [`tf.keras.applications`](https://www.tensorflow.org/api_docs/python/tf/keras/applications) library. For instance, want to call the resnet50 you simply need to type the following command
     ```python
     python hofi/train.py --dataset DATASET_NAME --backbone ResNet50
     ```
-    Please note that MODEL_NAME is case sensitive, for instance for resnet50 its ResNet50, as given in the tensorflow docs of [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50)
+    Please note that MODEL_NAME is case sensitive,
+    for instance for resnet50 its `ResNet50`, as given in the tensorflow docs of [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50)
+    for densenet121  its `DenseNet121`, as given in the tensorflow docs of [tf.keras.applications.DenseNet121]([https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/DenseNet121))
     
   
-  For more models see the below link:
-  https://www.tensorflow.org/api_docs/python/tf/keras/applications
+  
   Please note that the optimal configuration settings may vary between different backbone models compared to Xception.
 
 Ensure that each step is followed correctly to facilitate a smooth setup and execution of training jobs in I2-HOFI.
