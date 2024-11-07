@@ -66,7 +66,7 @@ This document provides an introduction on how to launch training and testing job
 
 To start training the model, execute the following command in the terminal:
 
-```bash
+```python
 python hofi/train.py dataset DATASET_NAME
 ```
 Replace `DATASET_NAME` with one of the following dataset identifiers, noting that they are case-sensitive: `Aircraft`, `Cars`, `CUB200`, `Flower102`, `NABird`.
