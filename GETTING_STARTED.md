@@ -66,10 +66,19 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```
     
 - **Training with Different Backbone Models:**
-  - To use the `I2HOFI` framework with a backbone model other than Xception, you can specify another model, such as ResNet50, in the training command:
+  - To use the `I2HOFI` framework with a backbone model other than Xception, you can specify another model named MODEL_NAME in the training command:
     ```python
-    python hofi/train.py --dataset DATASET_NAME --backbone Resnet50
+    python hofi/train.py --dataset DATASET_NAME --backbone MODEL_NAME
     ```
+  - MODEL_NAME can be anything available as a part of `tf.keras.applications` library. For instance, want to call the resnet50 you simply need to type the following command
+    ```python
+    python hofi/train.py --dataset DATASET_NAME --backbone ResNet50
+    ```
+    Please note that MODEL_NAME is case sensitive, for instance for resnet50 its ResNet50, as given in the tensorflow docs of [tf.keras.applications.ResNet50](https://www.tensorflow.org/api_docs/python/tf/keras/applications/ResNet50)
+    
+  
+  For more models see the below link:
+  https://www.tensorflow.org/api_docs/python/tf/keras/applications
   Please note that the optimal configuration settings may vary between different backbone models compared to Xception.
 
 Ensure that each step is followed correctly to facilitate a smooth setup and execution of training jobs in I2-HOFI.
