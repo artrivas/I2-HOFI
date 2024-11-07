@@ -5,8 +5,31 @@ This document provides an introduction on how to launch training and testing job
 ### Setup Instructions
 
 1. **Clone and Set Up the Repository:**
-   - Clone the repository and extract the source files to `./path_to_source_dir/I2-HOFI-main`.
-
+   - Clone the repository and extract the source files to `./path_to_root_dir/I2-HOFI-main`. After extraction you will have the following directory structure:
+```bash
+datasets/
+|_ Aircraft/
+|  |_ train/
+|  |  |_ train_folder1/
+|  |  |_ train_folder2/
+|  |  |_ ...
+|  |_ test/
+|     |_ test_folder1/
+|     |_ test_folder2/
+|     |_ ...
+|
+|_ Cars/
+|  |_ train/
+|  |  |_ train_folder1/
+|  |  |_ train_folder2/
+|  |  |_ ...
+|  |_ test/
+|     |_ test_folder1/
+|     |_ test_folder2/
+|     |_ ...
+|
+|_ ...
+```
 2. **Configure Settings:**
    - Update the `configs/config_DATASET_NAME.yaml` configuration file with your WandB API key to enable logging of `training` and `validation` metrics in WandB.
 
