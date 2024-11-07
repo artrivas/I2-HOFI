@@ -1,47 +1,93 @@
 DATA:
+  # Dataset name
   dataset: 'Cars'
-  rootdir: './datasets/'             # path to Dataset ROOT DIRECTORY
-  image_size: [224, 224, 3]          # INPUT IMAGE DIMENSION
+  # Directory path to dataset
+  rootdir: './datasets/'             
+  # INPUT IMAGE DIMENSIONS
+  image_size: [224, 224, 3]
+  
 HARDWARE:
-  gpu_id: -1                          # CPU : -1 and GPU: 0/1
-  gpu_utilisation: 1                  # fraction of GPU to use range [0, 1]
+  # GPU ID: -1 for CPU, 0/1 for GPU
+  gpu_id: -1
+  # Fraction of GPU memory to use b/w [0, 1]
+  gpu_utilisation: 0.9 
+  
 MODEL:
+  # Training/validation batch size
   batch_size: 8
-  model_name: 'i2hofi'                # MODELS --> 'basecnn'; 'i2hofi'
-  checkpoint_path: 'TrainedModels/'   # PATH to trained models
+  # Model architecture, model_name available --> 'basecnn'; 'i2hofi'
+  model_name: 'i2hofi'
+  # PATH to trained models (to load from a particular checkpoint)
+  checkpoint_path: 'TrainedModels/'   
+  # Print model summary
   summary: True
+  # Save model at every checkpoint frequency
   save_model: False
+  # Save model with best validation accuracy (overwriting previous best)
   save_best_only: False
+  # Load Model and resume training from a checkpoint epoch
   load_model: False
+  # Backbone model
   backbone: 'Xception'
+  # Freeze loaded pre-trained backbone weights (such as ImageNet Weights) 
   freeze_backbone: False
+  # Enable/Disable GNN layer 1
   gnn1_layr: True
+  # Enable/Disable GNN layer 2
   gnn2_layr: True
+  
 HYPERPARAMETERS:
+  # Teleport probability in APPNP (gamma in the paper)
   alpha: 0.3
+  # Upscale resolution of backbone output
   ROIS_resolution: 42
+  # Minimum dimension of each ROI
   minSize: 2
+  # Grid to split upsampled feature (horizontally and vertically)
   ROIS_grid_size: 3
+  # Pooled ROI resolution after resizing (default: 3 x 3)
   pool_size: 3
+  # Output feature dimension of APPNP
   gcn_outfeat_dim : 512
+  # Output feature dimension of GAT
   gat_outfeat_dim : 512
+  # Dropout rate
   dropout_rate : 0.2
+  # L2 regularization for GATConv layer
   l2_reg : 2.5e-4
+  # Number of heads in GAT attention
   attn_heads : 1
+  # MLP activation function in APPNP
   appnp_activation : 'sigmoid'
+  # Activation function for GAT output
   gat_activation : 'sigmoid'
+  # Method to combine GAT heads output: Concatenate (True) or Sum (False)
   concat_heads : True
+  
 TRAIN:
+  # To Restart training from a checkpoint epoch
   completed_epochs: 0
+  # Epoch frequency for computing validation accuracy
   validation_freq: 2
+  # Epoch frequency to save checkpoints
   checkpoint_freq: 2
+  # Total training epochs
   epochs: 150
+  # Initial Learning Rate (LR)
   lr: 0.01
+  # Flag to apply step LR reduction
   reduce_lr_bool: True
+  
 WANDB:
+  # WandB project name
   wb_proj_name : 'I2HOFI_Cars'
+  # WandB run name
   run_name : 'None'
+  # Flag to log data to WandB
   wandb_log : False
+  # WandB API key
   API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
+  
 COMPLEXITY:
+  # Compute model computational complexity
   calflops: False
