@@ -216,11 +216,11 @@ class I2HOFI(Params):
 
         """  Time distributed layer applied to roi pooling """
         self.timedist_layer1 = layers.TimeDistributed(
-            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)), name='TD_LYR1'
+            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)), name='TD_Layer1'
         )
 
         self.timedist_layer2 = layers.TimeDistributed(
-            layers.Lambda(self._temp_nodes_tranform), name='TD_LYR2'
+            layers.Lambda(self._temp_nodes_tranform), name='TD_Layer2'
         )
 
         ######### Temporal GCN layers
