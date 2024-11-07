@@ -80,14 +80,15 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
     ```
 
 - **For GPU Usage:**
-  - Single GPU (if you have one GPU, use gpu_id 0):
-    ```bash
+  - For a single GPU setup (if you have one GPU, set `gpu_id` to 0) with 80% memory allocation, use the following command:
+    ```python
     python hofi/train.py dataset DATASET_NAME gpu_id 0 gpu_utilisation 0.8
     ```
-  - Multiple GPUs (if you have multiple GPUs, use gpu_id as 0, 1, 2, etc.):
-    ```bash
+  - For multiple GPUs, specify the GPU ID (0, 1, 2, etc.) and set memory allocation to 80% using this command:
+    ```python
     python hofi/train.py dataset DATASET_NAME gpu_id 0 gpu_utilisation 0.8
     ```
+    Replace `0` with the appropriate GPU ID as needed.
 
 ### Additional Configuration Settings
 
