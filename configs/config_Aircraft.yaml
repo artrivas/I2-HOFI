@@ -73,9 +73,14 @@ TRAIN:
   # Apply Step LR
   reduce_lr_bool: True
 WANDB:
+  # Project Name to Register to WandB
   wb_proj_name : 'I2HOFI_Aircraft'
+  # Set Run name to appear in WandB
   run_name : 'None'
+  # Condition whether to log in WandB
   wandb_log : False
+  # WandB API key
   API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
 COMPLEXITY:
+  # Compute computatioal complexity of model
   calflops: False
