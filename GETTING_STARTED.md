@@ -94,7 +94,7 @@ Replace `DATASET_NAME` with one of the following dataset identifiers, noting tha
 
 - **Set Batch Size:**
   - To configure the batch size to 16 via the command line (or modify directly in the config files):
-    ```bash
+    ```python
     python hofi/train.py dataset DATASET_NAME batch_size 16
     ```
 
