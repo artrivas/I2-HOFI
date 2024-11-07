@@ -33,12 +33,19 @@ MODEL:
   # Enable/Disable GNN layer 2 (as a part of the model)
   gnn2_layr: True
 HYPERPARAMETERS:
+  # Teleport probability in APPNP (gamma in the paper)
   alpha: 0.3
+  # Upscale Resolution of backbone output feature map resolution
   ROIS_resolution: 42
+  # Mimimum spatial allowed dimension of each roi when pooling
   minSize: 2
+  # Grids to break Upsampled Feature horizontally and vertically
   ROIS_grid_size: 3
+  # ROI resolution after pooling and resizing (default: 3 x 3)
   pool_size: 3
+  # APPNP node feature dimension
   gcn_outfeat_dim : 512
+  # GAT output node feature dimension
   gat_outfeat_dim : 512
   dropout_rate : 0.2
   l2_reg : 2.5e-4
