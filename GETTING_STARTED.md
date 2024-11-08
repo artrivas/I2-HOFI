@@ -38,7 +38,7 @@ python hofi/train.py dataset DATASET_NAME
 ```
 Replace `DATASET_NAME` with one of the following dataset identifiers, noting that they are case-sensitive: `Aircraft`, `Cars`, `CUB200`, `Flower102`, `NABird`.
 
-## GPU Configuration
+## CPU/GPU Configuration
 
 - **For CPU Usage:**
   - Run the following command to train using CPU (default setting):
