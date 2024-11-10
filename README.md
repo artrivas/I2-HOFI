@@ -63,27 +63,6 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-# Install necessary packages
-pip install tensorflow==2.12.1   # Verify installation (below)
-pip install cuda-python          # Optional, if the below command could not find cuda devices
-pip install opencv-python
-pip install spektral
-pip install wandb
-```
-After tensorflow installation verify with the below command to check whether tensorflow is detecting CUDA devices or not
-
-
 ------------------------
 This will set up your environment with the required libraries for running the project. Additionally,
 - Please ensure that TensorFlow with CUDA support is correctly installed by following the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) if you're using a GPU. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
