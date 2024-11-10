@@ -39,8 +39,7 @@ pip install wandb
 ```
 After tensorflow installation verify with the below command to check whether tensorflow is detecting CUDA devices or not
 ```bash
-# Verify installation
-python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"   
+python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"    
 ```
 
 
