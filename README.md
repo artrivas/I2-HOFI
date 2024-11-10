@@ -23,30 +23,56 @@ Ensure you have Python 3.9+ installed on your system. You can download it from [
 ### Virtual Environment Setup (Recommended)
 For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages. To get started, run the following commands in your console:
 
-#### Installation on Linux 
-1. Create and activate a new Conda environment:
-```bash
-conda create -n myenv python=3.9
-conda activate myenv
-```
-2. Install tensorflow flow with cuda (if want to run in gpu)
-```bash
-pip install tensorflow==2.12.1   # Verify installation (below)
-```
-3. Verify the installation with cuda support
-```bash
-python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"    
-```
-If the print returns empty list, try the below optional installation:
-```bash
-pip install cuda-python   
-```
-4. Install other necessary packages
-```bash
-pip install opencv-python
-pip install spektral
-pip install wandb
-```
+#### Installation on Linux
+1. **Create and activate a new Conda environment:**
+   ```bash
+   conda create -n myenv python=3.9
+   conda activate myenv
+   ```
+
+2. **Install TensorFlow with CUDA support (if using GPU):**
+   ```bash
+   pip install tensorflow==2.12.1
+   ```
+
+3. **Verify the TensorFlow installation with CUDA support:**
+   ```bash
+   python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+   ```
+   If the output is an empty list and you need GPU support, perform this optional installation:
+   ```bash
+   pip install cuda-python
+   ```
+
+4. **Install other necessary packages:**
+   ```bash
+   pip install opencv-python
+   pip install spektral
+   pip install wandb
+   ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Install necessary packages
 pip install tensorflow==2.12.1   # Verify installation (below)
