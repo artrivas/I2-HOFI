@@ -32,14 +32,15 @@ conda create -n myenv python=3.9
 conda activate myenv
 
 # Install necessary packages
-pip install tensorflow==2.12.1   # Verify installation
+pip install tensorflow==2.12.1   # Verify installation (below)
 pip install opencv-python
 pip install spektral
 pip install wandb
 ```
 After tensorflow installation verify with the below command to check whether tensorflow is detecting CUDA devices or not
 ```bash
-python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+# Verify installation
+python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"   
 ```
 
 
