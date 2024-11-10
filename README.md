@@ -51,7 +51,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    pip install wandb
    ```
 
-
+#### Installation on Windows
 
 
 
