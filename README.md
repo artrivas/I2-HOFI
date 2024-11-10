@@ -33,6 +33,7 @@ conda activate myenv
 
 # Install necessary packages
 pip install tensorflow==2.12.1   # Verify installation (below)
+pip install cuda-python
 pip install opencv-python
 pip install spektral
 pip install wandb
