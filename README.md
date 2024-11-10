@@ -31,7 +31,7 @@ conda create -n myenv anaconda python=3.9
 conda activate myenv
 
 # Install necessary packages
-pip install tensorflow
+pip install tensorflow==2.12.1
 pip install opencv-python
 pip install spektral
 pip install wandb
