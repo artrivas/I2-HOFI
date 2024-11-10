@@ -39,7 +39,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    ```bash
    python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
    ```
-   If the output is an empty list and you need GPU support, perform this optional installation:
+   If the tensorflow is not able to detect CUDA devices try perform this optional installation:
    ```bash
    pip install cuda-python
    ```
