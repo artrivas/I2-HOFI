@@ -55,12 +55,10 @@ datasets/
 This structure should be applied to each dataset you use, replacing Aircraft and Stanford Cars with the actual names of the datasets you are working with. 
 
 ## Optimal Configuration for Each Dataset
-
-Train models on specific datasets with optimal settings automatically applied based on the dataset while running the following command
-
+For best results, models are trained with dataset-specific optimized settings. Configuration is applied automatically when running the usual training command:
 ```python
 python hofi/train.py dataset DATASET_NAME
 ```
-The script will load the appropriate configuration file (`configs/config_DATASET_NAME.yaml`) with pre-optimized settings for each dataset.
+The script loads the corresponding configuration file (`configs/config_DATASET_NAME.yaml`) with pre-optimized settings for each dataset.
 
 If you encounter difficulties while downloading datasets from our repository, or if you have suggestions for improving the download process, please feel free to create an issue in this repository. 
