@@ -26,18 +26,18 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
 
 --------------------------
 #### Installation on Linux
-1. **Create and activate a new Conda environment:**
+- **Create and activate a new Conda environment:**
    ```bash
    conda create -n myenv python=3.9
    conda activate myenv
    ```
 
-2. **Install TensorFlow with CUDA support (if using GPU):**
+- **Install TensorFlow with CUDA support (if using GPU):**
    ```bash
    pip install tensorflow==2.12.1
    ```
 
-3. **Verify the TensorFlow installation with CUDA support:**
+-  **Verify the TensorFlow installation with CUDA support:**
    ```bash
    python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
    ```
