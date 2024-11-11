@@ -52,6 +52,55 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    ```
 
 #### Installation on Windows
+
+1. **Create a new Conda environment with basic packages from the Anaconda channel:**
+   ```bash
+   conda create -n myenv anaconda python=3.9
+   ```
+
+2. **Activate the Conda environment:**
+   ```bash
+   conda activate myenv
+   ```
+
+3. **Install GPU support packages:**
+   ```bash
+   conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+   ```
+
+4. **Install TensorFlow (version compatibility with GPU on Windows):**
+   Note: TensorFlow versions above 2.10 are not supported on the GPU on Windows natively.
+   ```bash
+   python -m pip install "tensorflow<2.11"
+   ```
+
+5. **Verify TensorFlow installation with GPU support:**
+   ```bash
+   python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+   ```
+
+6. **Install other necessary packages:**
+   ```bash
+   pip install opencv-python spektral wandb
+   ```
+
+---------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+#### Installation on Windows
 1. **Create  a new Conda environment with basic packages from anaconda channel:**
    ```bash
    conda create -n myenv anaconda python=3.9
@@ -75,7 +124,12 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
    ```
 
-
+6. **Install other necessary packages:**
+   ```bash
+   pip install opencv-python
+   pip install spektral
+   pip install wandb
+   ```
 
 
 
