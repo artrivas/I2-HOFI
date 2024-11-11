@@ -23,6 +23,7 @@ Ensure you have Python 3.9+ installed on your system. You can download it from [
 ### Virtual Environment Setup (Recommended)
 For setting up a virtual environment, we recommend using [Anaconda](https://www.anaconda.com/download) to manage dependencies efficiently. Anaconda simplifies the process of creating isolated environments through `conda` and ensures compatibility across packages. To get started, run the following commands in your console:
 
+--------------------------
 #### Installation on Linux
 1. **Create and activate a new Conda environment:**
    ```bash
@@ -85,7 +86,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    pip install spektral
    pip install wandb
    ```
-
+--------------------------
 This setup will prepare your environment with the necessary libraries to run the project. Please ensure that TensorFlow with CUDA support is correctly installed. 
 - If you encounter issues installing TensorFlow with CUDA, which may occur due to hardware differences, please refer to the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) for detailed instructions. We recommend installing a specific version of TensorFlow to prevent compatibility issues, as newer versions may introduce changes that could lead to errors in our code. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
 
