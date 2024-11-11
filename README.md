@@ -65,6 +65,16 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
    ```
 
+4. Install tensorflow. Please note Anything above 2.10 is not supported on the GPU on Windows Native
+   ```bash
+   python -m pip install "tensorflow<2.11"
+   ```
+
+5. Verify installation
+   ```bash
+   python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+   ```
+
 
 
 
