@@ -97,7 +97,7 @@ API_key: "########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"
 ```
 Replace the string `"########## REPLACE THIS STRING WITH YOUR WandB API HASH KEY ########"` with your actual API key to enable WandB integration.
 
-### Usage
+### Usage of Script
 For dataset preparation, please refer to [DATASET.md](datasets/DATASET.md). For training and inference instructions, see [GETTING_STARTED.md](GETTING_STARTED.md).
 
 ### Citing This Paper
