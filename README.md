@@ -64,8 +64,9 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
 
 
 ------------------------
-This will set up your environment with the required libraries for running the project. Additionally,
-- Please ensure that TensorFlow with CUDA support is correctly installed by following the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) if you're using a GPU. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
+
+
+This setup will prepare your environment with the necessary libraries to run the project. Please ensure that TensorFlow with CUDA support is correctly installed. If you encounter issues installing TensorFlow with CUDA, which may occur due to hardware differences, please refer to the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) for detailed instructions. We recommend installing a specific version of TensorFlow to prevent compatibility issues, as newer versions may introduce changes that could lead to errors in our code. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
 
 - It's also recommended to use Weights & Biases (WandB) for tracking metrics such as training and validation accuracy. Start by creating a WandB account and obtaining your API key following [quickstart guide](https://docs.wandb.ai/quickstart). In the `./configs/config_<dataset_name>.yaml` file, locate the following line:
 
