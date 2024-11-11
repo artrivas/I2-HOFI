@@ -58,7 +58,7 @@ This structure should be applied to each dataset you use, replacing Aircraft and
 
 Train models on specific datasets with optimal settings automatically applied based on the dataset while running the following command
 
-```bash
+```python
 python hofi/train.py dataset DATASET_NAME
 ```
 The script will load the appropriate configuration file (`configs/config_DATASET_NAME.yaml`) with pre-optimized settings for each dataset.
