@@ -52,6 +52,18 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    ```
 
 #### Installation on Windows
+1. **Create  a new Conda environment with basic packages from anaconda channel:**
+   ```bash
+   conda create -n myenv anaconda python=3.9
+   ```
+2. **Activate a Conda environment**
+   ```bash
+   conda activate myenv
+   ```
+3. Install necessary packages to run on gpu
+    ```bash
+   conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+   ```
 
 
 
