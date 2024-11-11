@@ -50,7 +50,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    pip install spektral
    pip install wandb
    ```
-
+------------------
 #### Installation on Windows
 
 1. **Create a new Conda environment with basic packages from the Anaconda channel:**
@@ -69,7 +69,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    ```
 
 4. **Install TensorFlow (version compatibility with GPU on Windows):**
-   Note: TensorFlow versions above 2.10 are not supported on the GPU on Windows natively.
+   Note:  TensorFlow versions above 2.10 are not natively supported on GPUs in Windows. For more details, refer to the official [TensorFlow installation guide for Windows](https://www.tensorflow.org/install/pip#windows-native).
    ```bash
    python -m pip install "tensorflow<2.11"
    ```
@@ -81,66 +81,10 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
 
 6. **Install other necessary packages:**
    ```bash
-   pip install opencv-python spektral wandb
-   ```
-
----------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-#### Installation on Windows
-1. **Create  a new Conda environment with basic packages from anaconda channel:**
-   ```bash
-   conda create -n myenv anaconda python=3.9
-   ```
-2. **Activate a Conda environment**
-   ```bash
-   conda activate myenv
-   ```
-3. Install necessary packages to run on gpu
-    ```bash
-   conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
-   ```
-
-4. Install tensorflow. Please note Anything above 2.10 is not supported on the GPU on Windows Native
-   ```bash
-   python -m pip install "tensorflow<2.11"
-   ```
-
-5. Verify installation
-   ```bash
-   python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
-   ```
-
-6. **Install other necessary packages:**
-   ```bash
    pip install opencv-python
    pip install spektral
    pip install wandb
    ```
-
-
-
-
-
-
-
-
-
-------------------------
-
 
 This setup will prepare your environment with the necessary libraries to run the project. Please ensure that TensorFlow with CUDA support is correctly installed. 
 - If you encounter issues installing TensorFlow with CUDA, which may occur due to hardware differences, please refer to the official [TensorFlow installation guide](https://www.tensorflow.org/install/pip) for detailed instructions. We recommend installing a specific version of TensorFlow to prevent compatibility issues, as newer versions may introduce changes that could lead to errors in our code. For optimal performance, a GPU with a minimum of 16GB of VRAM (dedicated memory) is recommended.
