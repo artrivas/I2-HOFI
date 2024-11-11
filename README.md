@@ -75,7 +75,7 @@ For setting up a virtual environment, we recommend using [Anaconda](https://www.
    ```
 --------------------------
 
-- **Install other necessary packages:**
+#### Install other necessary packages:
    ```bash
       pip install opencv-python
       pip install spektral
