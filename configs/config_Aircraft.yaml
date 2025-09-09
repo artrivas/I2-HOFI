@@ -2,7 +2,7 @@ DATA:
   # Dataset name
   dataset: 'Aircraft'
   # Directory path to dataset
-  rootdir: './datasets/'             
+  rootdir: '/content/'             
   # INPUT IMAGE DIMENSIONS
   image_size: [224, 224, 3]
   

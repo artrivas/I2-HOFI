@@ -17,7 +17,8 @@ import cv2
 import random
 
 class DirectoryDataGenerator(tf.keras.utils.Sequence):
-    def __init__(self, base_directories, augmentor=False, preprocessors=None, batch_size=16, target_sizes=(224,224), shuffle=False, channel_last=True, hasROIS=False, verbose=True):
+    def __init__(self, base_directories, augmentor=False, preprocessors=None, batch_size=16, target_sizes=(224,224), shuffle=False, channel_last=True, hasROIS=False, verbose=True,**kwargs):
+        super().__init__(**kwargs)
         self.base_directories = base_directories
         self.augmentor = augmentor
         self.preprocessors = preprocessors #should be a function that can be directly called with an image 
@@ -73,7 +74,7 @@ class DirectoryDataGenerator(tf.keras.utils.Sequence):
 
         # Generate data
         X, y = self.__data_generation(list_IDs_temp, indexes)
-        return [X,], y
+        return (X,y)
 
     def get_indexes(self):
         return self.indexes

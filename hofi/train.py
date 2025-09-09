@@ -7,7 +7,7 @@ import wandb
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import LearningRateScheduler
-from tensorflow.keras.optimizers.legacy import Adam, SGD
+from keras.optimizers import Adam, SGD
 from tensorflow.keras.applications.xception import preprocess_input as pp_input
 
 # user-defined functions (from utils.py)
@@ -18,7 +18,7 @@ from schedulers import StepLearningRateScheduler
 from utils import get_flops
 from models import construct_model
 
-tf.compat.v1.experimental.output_all_intermediates(True)
+#tf.compat.v1.experimental.output_all_intermediates(True)
 
 # ######################################### PROCESSING DATASET DIRECTORY INFO ####################################### #
 """  Function for pre-processing directory information """
@@ -97,9 +97,12 @@ os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
 # if "TF_GPU_ALLOCATOR" not in os.environ:
 #     os.environ["TF_GPU_ALLOCATOR"] = "cuda_malloc_async"
     
-gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction = gpu_utilisation)
-sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
-tf.compat.v1.disable_eager_execution()
+#gpu_options = tf.compat.v1.GPUOptions(per_process_gpu_memory_fraction = gpu_utilisation)
+#sess = tf.compat.v1.Session(config = tf.compat.v1.ConfigProto(gpu_options = gpu_options))
+#tf.compat.v1.disable_eager_execution()
+physical = tf.config.list_physical_devices("GPU")
+if physical:
+    tf.config.experimental.set_memory_growth(physical[0], True)
 
 #################################### LOGGING, BUILDING & TRAINING MODEL #############################################
 # ============== Wandb LOGGING Parameters ======================= #
@@ -243,9 +246,9 @@ else:
         model.load_weights(checkpoint_path)
     
     optimizer = SGD(learning_rate = lr) 
-    model.compile(optimizer=optimizer,
-                  loss='categorical_crossentropy',
-                  metrics=['acc'])
+    model.compile(optimizer=SGD(learning_rate=lr),
+              loss="categorical_crossentropy",
+              metrics=["accuracy"])  # no uses "acc"
     
     ##################################################################
     # ################## Training Model ############################ #

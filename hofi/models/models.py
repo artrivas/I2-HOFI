@@ -7,12 +7,21 @@ from tensorflow.keras.regularizers import l2
 
 # Importing necessary packages from spektral
 from spektral.utils.sparse import sp_matrix_to_sp_tensor 
-from spektral.layers import GCNConv, APPNPConv, GATConv, GlobalAttentionPool
+from spektral.layers import GCNConv, GlobalAttentionPool
+from spektral.layers import GATConv as _GATConv
+from spektral.layers import APPNPConv as _APPNPConv
 from spektral.utils import normalized_adjacency
 
 # from user-defined scripts
 from utils import RoiPoolingConv, getROIS, getIntegralROIS, crop, squeezefunc, stackfunc
 
+
+class APPNPConvSafe(_APPNPConv):
+    def call(self, inputs, mask=None, **kwargs):
+        # Keras may pass mask=[None, None] for [x, A]; normalize to None
+        if isinstance(mask, (list, tuple)) and all(m is None for m in mask):
+            mask = None
+        return super().call(inputs, mask=mask, **kwargs)
 
 class Params(Model):
     """
@@ -97,37 +106,36 @@ class Params(Model):
             self.gat_outfeat_dim = self.gat_outfeat_dim // self.attn_heads
     
 
-class GATConv(GATConv):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        '''
-        Modified _call_dense for compatibility recent TF package
-        '''
+class GATConvPatched(_GATConv):
+    def call(self, inputs, mask=None, **kwargs):
+        # Keras often passes mask=[None, None] for [x, A]; normalize to None
+        if isinstance(mask, (list, tuple)) and all(m is None for m in mask):
+            mask = None
+        return super().call(inputs, mask=mask, **kwargs)
 
     def _call_dense(self, x, a):
-        shape = tf.shape(a)[:-1]
+        # Works for dense or sparse 'a' and avoids K.eval
+        a_dense = tf.sparse.to_dense(a) if isinstance(a, tf.SparseTensor) else a
+
         if self.add_self_loops:
-            a = tf.linalg.set_diag(a, tf.ones(shape, a.dtype))
-        x = tf.einsum("...NI , IHO -> ...NHO", x, self.kernel)
-        attn_for_self = tf.einsum("...NHI , IHO -> ...NHO", x, self.attn_kernel_self)
-        attn_for_neighs = tf.einsum(
-            "...NHI , IHO -> ...NHO", x, self.attn_kernel_neighs
-        )
-        attn_for_neighs = tf.einsum("...ABC -> ...CBA", attn_for_neighs)
+            n = tf.shape(a_dense)[-1]
+            a_dense = tf.linalg.set_diag(a_dense, tf.ones([n], dtype=a_dense.dtype))
 
-        attn_coef = attn_for_self + attn_for_neighs
-        attn_coef = tf.nn.leaky_relu(attn_coef, alpha=0.2)
+        x = tf.einsum("...NI, IHO -> ...NHO", x, self.kernel)
+        attn_self  = tf.einsum("...NHI, IHO -> ...NHO", x, self.attn_kernel_self)
+        attn_neigh = tf.einsum("...NHI, IHO -> ...NHO", x, self.attn_kernel_neighs)
+        attn_neigh = tf.einsum("...ABC -> ...CBA", attn_neigh)
 
-        mask = tf.where(K.eval(a) == 0.0, -10e9, 0.0)
-        mask = tf.cast(mask, dtype=attn_coef.dtype)
+        attn_coef = tf.nn.leaky_relu(attn_self + attn_neigh, alpha=0.2)
 
-        attn_coef += mask[..., None, :]
+        minus_inf = tf.cast(-1e9, attn_coef.dtype)
+        mask_logits = tf.where(tf.equal(a_dense, 0.0), minus_inf, 0.0)
+        attn_coef = attn_coef + mask_logits[..., None, :]
+
         attn_coef = tf.nn.softmax(attn_coef, axis=-1)
         attn_coef_drop = self.dropout(attn_coef)
-
-        output = tf.einsum("...NHM , ...MHI -> ...NHI", attn_coef_drop, x)
-
-        return output, attn_coef        
+        out = tf.einsum("...NHM, ...MHI -> ...NHI", attn_coef_drop, x)
+        return out, attn_coef
 
 
 # ################################################################################ #
@@ -202,9 +210,13 @@ class I2HOFI(Params):
         super().__init__(*args, **kwargs)
 
         # Set up feature dimensions based on the base model's output shape
-        dims = self.base_model.output.shape.as_list()[1:]
-        self.base_channels = dims[2]
+        #dims = self.base_model.output.shape.as_list()[1:]
+        dims = tf.keras.backend.int_shape(self.base_model.output)[1:]
+        h, w, c = dims
+        self.base_channels = c
         self.feat_dim = int(self.base_channels) * self.pool_size * self.pool_size
+        #self.base_channels = dims[2]
+        #self.feat_dim = int(self.base_channels) * self.pool_size * self.pool_size
 
         # Initialize ROIs for pooling
         self.rois_mat =  getROIS(
@@ -224,18 +236,11 @@ class I2HOFI(Params):
 
 
     def _construct_adjecency(self):
-        # Adjacency matrix for intra-ROI processing; if there are 36 nodes, then A_intra is 36 x 36
-        A1 = np.ones((self.cnodes, self.cnodes), dtype = 'int') 
-        cfltr1 = GCNConv.preprocess(A1).astype('f4')   # Normalize Adjacency matrix
-        A_intra = layers.Input(tensor=sp_matrix_to_sp_tensor(cfltr1), name = 'AdjacencyMatrix1') 
+      A1 = np.ones((self.cnodes, self.cnodes), dtype='float32')
+      self.A_intra = tf.sparse.reorder(sp_matrix_to_sp_tensor(GCNConv.preprocess(A1).astype('f4')))
 
-        # Adjacency matrix for inter-ROI processing; if there are 26 ROIs, then A_inter is 26 x 26
-        A2 = np.ones((self.num_rois + 1, self.num_rois + 1), dtype = 'int') 
-        cfltr2 = GCNConv.preprocess(A2).astype('f4')  # Normalize Adjacency matrix
-        A_inter = layers.Input(tensor=sp_matrix_to_sp_tensor(cfltr2), name = 'AdjacencyMatrix2') 
-
-        # Combine inter- and intra-ROI adjacency matrices into a list
-        self.Adj = [A_intra, A_inter]
+      A2 = np.ones((self.num_rois + 1, self.num_rois + 1), dtype='float32')
+      self.A_inter = tf.sparse.reorder(sp_matrix_to_sp_tensor(GCNConv.preprocess(A2).astype('f4')))
 
 
     def _temp_nodes_transform(self, roi):
@@ -311,28 +316,28 @@ class I2HOFI(Params):
 
         if self.gnn1_layr:
             # First GNN layer using APPNP
-            self.tgcn_1 = APPNPConv(
-                self.gcn_outfeat_dim, 
-                alpha = self.alpha, 
-                propagations = 1, 
-                mlp_activation = self.appnp_activation, 
-                use_bias = True, 
-                name = 'GNN_1'
+            self.tgcn_1 = APPNPConvSafe(
+              self.gcn_outfeat_dim,
+              alpha=self.alpha,
+              propagations=1,
+              mlp_activation=self.appnp_activation,
+              use_bias=True,
+              name='GNN_1',
             )
 
         if self.gnn2_layr:
             # Second GNN layer using GAT
-            self.tgcn_2 = GATConv(
-                self.gat_outfeat_dim,
-                attn_heads = self.attn_heads,
-                concat_heads = self.concat_heads,
-                dropout_rate = self.dropout_rate,
-                activation = self.gat_activation,
-                kernel_regularizer = l2(self.l2_reg),
-                attn_kernel_regularizer = l2(self.l2_reg),
-                bias_regularizer = l2(self.l2_reg), 
-                name = 'GNN_2'
-                )
+            self.tgcn_2 = GATConvPatched(
+              self.gat_outfeat_dim,
+              attn_heads=self.attn_heads,
+              concat_heads=self.concat_heads,
+              dropout_rate=self.dropout_rate,
+              activation=self.gat_activation,
+              kernel_regularizer=l2(self.l2_reg),
+              attn_kernel_regularizer=l2(self.l2_reg),
+              bias_regularizer=l2(self.l2_reg),
+              name='GNN_2',
+            )
 
         # Dropout layer applied after combining all intra- and inter-ROI nodes     
         self.roi_droput_2 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_2')
@@ -365,10 +370,10 @@ class I2HOFI(Params):
         for x in splits:
             x = tf.squeeze(x, axis=1)
             if self.gnn1_layr:
-                temp = self.tgcn_1([x, self.Adj[0] ])
+                temp = self.tgcn_1([x, self.A_intra ])
                 x = temp + x       # Apply residual connection
             if self.gnn2_layr:
-                temp = self.tgcn_2([x, self.Adj[0] ])
+                temp = self.tgcn_2([x, self.A_intra ])
                 temp = temp + x    # Apply residual connection
             xcoll.append(temp)
 
@@ -386,10 +391,10 @@ class I2HOFI(Params):
         for x in splits:
             x = tf.squeeze(x, axis=1)
             if self.gnn1_layr:
-                temp = self.tgcn_1([x, self.Adj[1] ])
+                temp = self.tgcn_1([x, self.A_inter ])
                 x = temp + x       # Apply residual connection 
             if self.gnn2_layr:
-                temp = self.tgcn_2([x, self.Adj[1] ])
+                temp = self.tgcn_2([x, self.A_inter ])
                 temp = temp + x    # Apply residual connection
             xcoll.append(temp)
 
