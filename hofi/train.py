@@ -7,7 +7,7 @@ import wandb
 import tensorflow as tf
 from tensorflow.keras.models import Model
 from tensorflow.keras.callbacks import LearningRateScheduler
-from keras.optimizers import Adam, SGD
+from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.applications.xception import preprocess_input as pp_input
 
 # user-defined functions (from utils.py)
@@ -246,10 +246,13 @@ else:
         model.load_weights(checkpoint_path)
     
     optimizer = SGD(learning_rate = lr) 
-    model.compile(optimizer=SGD(learning_rate=lr),
-              loss="categorical_crossentropy",
-              metrics=["accuracy"])  # no uses "acc"
-    
+    model.compile(
+      optimizer=SGD(learning_rate=lr),
+      loss="categorical_crossentropy",
+      metrics=["accuracy"],
+      jit_compile=False,          # <- clave
+      # run_eagerly=True,         # <- opcional para depurar (más lento)
+    )
     ##################################################################
     # ################## Training Model ############################ #
     ##################################################################
@@ -264,3 +267,4 @@ else:
     
     if wandb_log:
         wrun.finish()
+
