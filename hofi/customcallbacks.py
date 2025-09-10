@@ -105,3 +105,4 @@ class ValCallback(keras.callbacks.Callback):
             if self.wandb_log:
                 wandb.log({"val_loss": float(loss), "val_acc": float(acc)})
 
+

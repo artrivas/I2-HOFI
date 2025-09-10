@@ -1,126 +1,62 @@
-# Importing tensorflow pacakages
+# models.py
+# -*- coding: utf-8 -*-
+"""
+Modelos serializables para Keras 3 (CNN + GNN).
+Requiere:
+- spektral
+- utils.py con: RoiPoolingConv, getROIS, crop, squeezefunc, stackfunc (registrados)
+"""
+
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.backend as K
 from tensorflow.keras import layers, Model
 from tensorflow.keras.regularizers import l2
+import keras  # <- necesario para @keras.saving.register_keras_serializable
 
-# Importing necessary packages from spektral
-from spektral.utils.sparse import sp_matrix_to_sp_tensor 
+# Spektral
+from spektral.utils.sparse import sp_matrix_to_sp_tensor
 from spektral.layers import GCNConv, GlobalAttentionPool
 from spektral.layers import GATConv as _GATConv
 from spektral.layers import APPNPConv as _APPNPConv
-from spektral.utils import normalized_adjacency
 
-# from user-defined scripts
-from utils import RoiPoolingConv, getROIS, getIntegralROIS, crop, squeezefunc, stackfunc
+# Utils propios (asegúrate de registrar sus símbolos en utils.py)
+from utils import RoiPoolingConv, getROIS, crop, squeezefunc, stackfunc
 
 
+# ------------------------------------------------------------------------------
+# Capas/Clases auxiliares registradas
+# ------------------------------------------------------------------------------
+
+@keras.saving.register_keras_serializable(package="i2hofi")
 class APPNPConvSafe(_APPNPConv):
+    """APPNP que tolera mask=[None, None] (Keras 3)"""
     def call(self, inputs, mask=None, **kwargs):
-        # Keras may pass mask=[None, None] for [x, A]; normalize to None
         if isinstance(mask, (list, tuple)) and all(m is None for m in mask):
             mask = None
         return super().call(inputs, mask=mask, **kwargs)
 
-class Params(Model):
-    """
-    Params: Initializes parameters for CNN and GNN models.
+    def get_config(self):
+        cfg = super().get_config()
+        return cfg
 
-    This base class centralizes parameter setup for models that combine Convolutional Neural Networks (CNNs) 
-    and Graph Neural Networks (GNNs), supporting flexible configuration of graph and image processing layers.
 
-    Parameters:
-    - CNN and GNN Config: Includes parameters for CNN backbones, graph convolution layers, attention heads, 
-      pooling sizes, dropout rates, and regularization.
-    - Backbone Setup: Optionally loads a specified CNN backbone from `tf.keras.applications` and supports 
-      freezing the backbone layers for transfer learning.
-    - Graph Settings: Configures graph attention and propagation layers with custom dimensions and activation.
-
-    Usage:
-    This base class can be inherited by model classes requiring consistent parameter configuration for mixed 
-    CNN-GNN architectures.
-
-    """
-    def __init__(
-        self,
-        pool_size=None,
-        ROIS_resolution=None,
-        ROIS_grid_size=None,
-        minSize=None,
-        alpha=None,
-        nb_classes=None,
-        batch_size=None,
-        input_sh = (224, 224, 3),
-        gcn_outfeat_dim = 256,
-        gat_outfeat_dim = 256,
-        dropout_rate = 0.2,
-        l2_reg = 2.5e-4,
-        attn_heads = 1,
-        appnp_activation = 'sigmoid',
-        gat_activation = 'elu',
-        concat_heads = True,
-        backbone = None,
-        freeze_backbone = None,
-        gnn1_layr = True,
-        gnn2_layr = True,
-        track_feat = False,
-        *args, **kwargs
-        ):
-        super().__init__(*args, **kwargs)
-        self.pool_size = pool_size
-        self.ROIS_resolution = ROIS_resolution
-        self.ROIS_grid_size = ROIS_grid_size
-        self.minSize = minSize
-        self.alpha = alpha
-        self.nb_classes = nb_classes
-        self.batch_size = batch_size
-        self.input_sh = input_sh
-        self.gcn_outfeat_dim = gcn_outfeat_dim
-        self.gat_outfeat_dim = gat_outfeat_dim
-        self.dropout_rate = dropout_rate
-        self.l2_reg = l2_reg  # L2 regularization rate
-        self.attn_heads = attn_heads
-        self.appnp_activation = appnp_activation
-        self.gat_activation = gat_activation
-        self.concat_heads = concat_heads
-        self.gnn1_layr = gnn1_layr
-        self.gnn2_layr = gnn2_layr
-        self.track_feat = track_feat
-        
-        # Load the specified CNN backbone
-        base_model_class = getattr(tf.keras.applications, backbone)
-        self.base_model = base_model_class(
-            weights="imagenet",
-            input_tensor = layers.Input( shape = self.input_sh ), 
-            include_top = False,
-        )      
-        
-        # Optionally freeze backbone layers
-        if freeze_backbone:
-            for layer in self.base_model.layers:
-                layer.trainable = False           
-
-        # Adjust GAT output node dimension; if concat_heads is True, split gat_outfeat_dim across heads: gat_outfeat_dim = GAT_node_dim * heads 
-        if self.concat_heads:    
-            self.gat_outfeat_dim = self.gat_outfeat_dim // self.attn_heads
-    
-
+@keras.saving.register_keras_serializable(package="i2hofi")
 class GATConvPatched(_GATConv):
+    """GAT que tolera mask=[None, None] y evita K.eval en camino denso."""
     def call(self, inputs, mask=None, **kwargs):
-        # Keras often passes mask=[None, None] for [x, A]; normalize to None
         if isinstance(mask, (list, tuple)) and all(m is None for m in mask):
             mask = None
         return super().call(inputs, mask=mask, **kwargs)
 
     def _call_dense(self, x, a):
-        # Works for dense or sparse 'a' and avoids K.eval
         a_dense = tf.sparse.to_dense(a) if isinstance(a, tf.SparseTensor) else a
 
         if self.add_self_loops:
             n = tf.shape(a_dense)[-1]
             a_dense = tf.linalg.set_diag(a_dense, tf.ones([n], dtype=a_dense.dtype))
 
+        # Proyecciones
         x = tf.einsum("...NI, IHO -> ...NHO", x, self.kernel)
         attn_self  = tf.einsum("...NHI, IHO -> ...NHO", x, self.attn_kernel_self)
         attn_neigh = tf.einsum("...NHI, IHO -> ...NHO", x, self.attn_kernel_neighs)
@@ -137,288 +73,383 @@ class GATConvPatched(_GATConv):
         out = tf.einsum("...NHM, ...MHI -> ...NHI", attn_coef_drop, x)
         return out, attn_coef
 
+    def get_config(self):
+        cfg = super().get_config()
+        return cfg
 
-# ################################################################################ #
-# ############################# Model Definations ################################ #
-# ################################################################################ #
 
+@keras.saving.register_keras_serializable(package="i2hofi")
+class TempNodesTransform(layers.Layer):
+    """
+    Convierte cada ROI [p, p, C] en una secuencia de nodos concatenando
+    splits de canales en bloques de tamaño gcn_outfeat_dim:
+      r x p x p x C -> r x (p*p*C/gcn_outfeat_dim) x gcn_outfeat_dim
+    """
+    def __init__(self, pool_size, base_channels, gcn_outfeat_dim, **kwargs):
+        super().__init__(**kwargs)
+        self.pool_size = int(pool_size)
+        self.base_channels = int(base_channels)
+        self.gcn_outfeat_dim = int(gcn_outfeat_dim)
+
+    def call(self, roi):
+        reshaped = tf.reshape(roi, (-1, self.pool_size * self.pool_size, self.base_channels))
+        splits = tf.split(reshaped, num_or_size_splits=self.base_channels // self.gcn_outfeat_dim, axis=2)
+        joined = tf.concat(splits, axis=1)
+        return joined
+
+    def get_config(self):
+        cfg = super().get_config()
+        cfg.update({
+            "pool_size": self.pool_size,
+            "base_channels": self.base_channels,
+            "gcn_outfeat_dim": self.gcn_outfeat_dim,
+        })
+        return cfg
+
+
+# ------------------------------------------------------------------------------
+# Clase base de parámetros/estructura
+# ------------------------------------------------------------------------------
+
+@keras.saving.register_keras_serializable(package="i2hofi")
+class Params(Model):
+    """
+    Inicializa parámetros y backbone CNN para modelos CNN+GNN.
+    """
+    def __init__(
+        self,
+        pool_size=None,
+        ROIS_resolution=None,
+        ROIS_grid_size=None,
+        minSize=None,
+        alpha=None,
+        nb_classes=None,
+        batch_size=None,
+        input_sh=(224, 224, 3),
+        gcn_outfeat_dim=256,
+        gat_outfeat_dim=256,
+        dropout_rate=0.2,
+        l2_reg=2.5e-4,
+        attn_heads=1,
+        appnp_activation='sigmoid',
+        gat_activation='elu',
+        concat_heads=True,
+        backbone=None,
+        freeze_backbone=None,
+        gnn1_layr=True,
+        gnn2_layr=True,
+        track_feat=False,
+        *args, **kwargs
+    ):
+        super().__init__(*args, **kwargs)
+        # Guardar hiperparámetros para serialización
+        self.pool_size = pool_size
+        self.ROIS_resolution = ROIS_resolution
+        self.ROIS_grid_size = ROIS_grid_size
+        self.minSize = minSize
+        self.alpha = alpha
+        self.nb_classes = nb_classes
+        self.batch_size = batch_size
+        self.input_sh = tuple(input_sh) if isinstance(input_sh, (list, tuple)) else input_sh
+        self.gcn_outfeat_dim = int(gcn_outfeat_dim)
+        self.gat_outfeat_dim = int(gat_outfeat_dim)
+        self.dropout_rate = float(dropout_rate)
+        self.l2_reg = float(l2_reg)
+        self.attn_heads = int(attn_heads)
+        self.appnp_activation = appnp_activation
+        self.gat_activation = gat_activation
+        self.concat_heads = bool(concat_heads)
+        self.backbone_str = backbone
+        self.freeze_backbone = bool(freeze_backbone) if freeze_backbone is not None else False
+        self.gnn1_layr = bool(gnn1_layr)
+        self.gnn2_layr = bool(gnn2_layr)
+        self.track_feat = bool(track_feat)
+
+        # Cargar backbone
+        if self.backbone_str is None:
+            raise ValueError("Debe especificar 'backbone' (p.ej., 'Xception').")
+        base_model_class = getattr(tf.keras.applications, self.backbone_str)
+        self.base_model = base_model_class(
+            weights="imagenet",
+            input_tensor=layers.Input(shape=self.input_sh),
+            include_top=False,
+        )
+
+        # Congelar backbone si aplica
+        if self.freeze_backbone:
+            for layer in self.base_model.layers:
+                layer.trainable = False
+
+        # Ajuste de dimensión de salida de GAT por número de cabezas si se concatena
+        if self.concat_heads and self.attn_heads > 0:
+            self.gat_outfeat_dim = self.gat_outfeat_dim // self.attn_heads
+
+    # ----- serialización -----
+    def get_config(self):
+        return {
+            "pool_size": self.pool_size,
+            "ROIS_resolution": self.ROIS_resolution,
+            "ROIS_grid_size": self.ROIS_grid_size,
+            "minSize": self.minSize,
+            "alpha": self.alpha,
+            "nb_classes": self.nb_classes,
+            "batch_size": self.batch_size,
+            "input_sh": self.input_sh,
+            "gcn_outfeat_dim": self.gcn_outfeat_dim,
+            "gat_outfeat_dim": self.gat_outfeat_dim,
+            "dropout_rate": self.dropout_rate,
+            "l2_reg": self.l2_reg,
+            "attn_heads": self.attn_heads,
+            "appnp_activation": self.appnp_activation,
+            "gat_activation": self.gat_activation,
+            "concat_heads": self.concat_heads,
+            "backbone": self.backbone_str,
+            "freeze_backbone": self.freeze_backbone,
+            "gnn1_layr": self.gnn1_layr,
+            "gnn2_layr": self.gnn2_layr,
+            "track_feat": self.track_feat,
+        }
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
+
+
+# ------------------------------------------------------------------------------
+# Modelos
+# ------------------------------------------------------------------------------
+
+@keras.saving.register_keras_serializable(package="i2hofi")
 class BASE_CNN(Params):
     """
-    BASE_CNN: A simple CNN model with a classification head.
-
-    This model uses a backbone CNN followed by a Global Average Pooling (GAP) layer and a dense 
-    softmax layer for classification. It is suitable for straightforward image classification tasks 
-    and can serve as a baseline for comparison.
-
-    Components:
-    - GAP Layer: Aggregates spatial features into a global vector.
-    - Dense Layer: Softmax layer for multi-class classification.
-
-    Methods:
-    - _construct_layers: Initializes GAP and classification layers.
-    - call: Performs forward pass; optionally tracks intermediate features.
-
+    Backbone CNN + GAP + Dense softmax (baseline).
     """
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Build required top layers
         self._construct_layers()
-        
+
     def _construct_layers(self):
-        # Add a custom classification head
         self.GAP_layer = layers.GlobalAveragePooling2D()
-        self.dense = layers.Dense(self.nb_classes, activation="softmax")  #  Final dense layer with softmax activation
-        
+        self.dense = layers.Dense(self.nb_classes, activation="softmax")
+
     def call(self, inputs):
         base_out = self.base_model(inputs)
         x_gap = self.GAP_layer(base_out)
         x = self.dense(x_gap)
-        
-        # Track features for t-SNE computation
+
         if self.track_feat:
             self.base_out = tf.identity(base_out)
             self.GlobAttpool_feat = tf.identity(x_gap)
-        
+
         return x
 
+    def get_config(self):
+        return super().get_config()
 
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
+
+
+@keras.saving.register_keras_serializable(package="i2hofi")
 class I2HOFI(Params):
     """
-    I2HOFI : (paper: Interweaving Insights: High-Order Feature Interaction for Fine-Grained Visual Recognition)
-
-    I2HOFI is a hybrid CNN-GNN model designed for fine-grained visual recognition. It uses Graph Neural 
-    Networks (GNNs) to capture complex interactions both within individual regions (intra-ROI) and 
-    across multiple regions of interest (inter-ROI) in an image. This model combines APPNP and GAT 
-    layers for high-order feature interaction, enabling robust, context-aware representations.
-
-    Key Components:
-    - ROI Pooling: Extracts features from specified regions, with the full image as an additional ROI.
-    - Intra- and Inter-ROI GNNs: APPNP and GAT layers capture intra- and cross-region dependencies.
-    - Global Attention Pooling: Combines ROI features into a final representation for classification.
-
-    Methods:
-    - __init__: Initializes the model, sets feature dimensions, and configures ROI information.
-    - _construct_adjacency: Builds adjacency matrices for intra- and inter-ROI GNN layers.
-    - _extract_roi_nodes: Pools and reshapes each ROI for processing.
-    - _temp_nodes_transform: Reshapes and segments ROI tensors for graph convolution.
-    - _construct_layers: Defines all model layers, including backbone CNN, GNN layers, and attention pooling.
-    - call: Forward pass that applies feature extraction, ROI pooling, graph convolutions, and attention pooling for final predictions.
-
+    Interweaving Insights: High-Order Feature Interaction for FGVR (CNN+GNN con APPNP + GAT).
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Set up feature dimensions based on the base model's output shape
-        #dims = self.base_model.output.shape.as_list()[1:]
+        # Dimensiones del backbone
         dims = tf.keras.backend.int_shape(self.base_model.output)[1:]
+        if dims is None or len(dims) != 3:
+            raise ValueError("No se pudo inferir (H, W, C) del backbone.")
         h, w, c = dims
-        self.base_channels = c
-        self.feat_dim = int(self.base_channels) * self.pool_size * self.pool_size
-        #self.base_channels = dims[2]
-        #self.feat_dim = int(self.base_channels) * self.pool_size * self.pool_size
+        self.base_channels = int(c)
+        self.feat_dim = int(self.base_channels) * int(self.pool_size) * int(self.pool_size)
 
-        # Initialize ROIs for pooling
-        self.rois_mat =  getROIS(
-            resolution = self.ROIS_resolution,
-            gridSize = self.ROIS_grid_size, 
-            minSize = self.minSize
-            )
-        self.num_rois = self.rois_mat.shape[0]
+        # ROIs
+        self.rois_mat = getROIS(
+            resolution=self.ROIS_resolution,
+            gridSize=self.ROIS_grid_size,
+            minSize=self.minSize,
+        )
+        self.num_rois = int(self.rois_mat.shape[0])
 
-        # Compute the number of nodes after reshaping the ROI tensor, e.g., for a 3 x 3 x 2048 tensor, 
-        # the total nodes are 3 * 3 * (2048 // 512) = 36, where 512 is the target output dimension per node for the GNN
-        self.cnodes = (int(self.base_channels) // self.gcn_outfeat_dim) * self.pool_size * self.pool_size
+        # Número de nodos por ROI (tras reshape y splits de canales)
+        self.cnodes = (self.base_channels // self.gcn_outfeat_dim) * self.pool_size * self.pool_size
 
-        # Construct adjacency matrices and required layers
+        # Capas/adjacencias
         self._construct_adjecency()
         self._construct_layers()
 
-
+    # ----- grafo -----
     def _construct_adjecency(self):
-      A1 = np.ones((self.cnodes, self.cnodes), dtype='float32')
-      self.A_intra = tf.sparse.reorder(sp_matrix_to_sp_tensor(GCNConv.preprocess(A1).astype('f4')))
+        # Intra-ROI
+        A1 = np.ones((self.cnodes, self.cnodes), dtype="float32")
+        self.A_intra = tf.sparse.reorder(
+            sp_matrix_to_sp_tensor(GCNConv.preprocess(A1).astype("f4"))
+        )
 
-      A2 = np.ones((self.num_rois + 1, self.num_rois + 1), dtype='float32')
-      self.A_inter = tf.sparse.reorder(sp_matrix_to_sp_tensor(GCNConv.preprocess(A2).astype('f4')))
-
-
-    def _temp_nodes_transform(self, roi):
-        # Flatten spatial dimensions into a single node dimension for GNN processing, e.g., r x 3 x 3 x 2048 --> r x 9 x 2048
-        reshaped_data = tf.reshape(roi, (-1, self.pool_size * self.pool_size, self.base_channels))
-
-        # Split along the channel dimension (say 4), e.g., r x 9 x 2048 --> 4 splits of [r x 9 x 512]
-        splits = tf.split(reshaped_data, num_or_size_splits=int(self.base_channels) // self.gcn_outfeat_dim, axis=2)
-
-        # Concatenate splits along the node dimension, e.g., 4 splits of [r x 9 x 512] --> r x 36 x 512
-        joined = tf.concat(splits, 1)
-
-        return joined
-
+        # Inter-ROI
+        A2 = np.ones((self.num_rois + 1, self.num_rois + 1), dtype="float32")
+        self.A_inter = tf.sparse.reorder(
+            sp_matrix_to_sp_tensor(GCNConv.preprocess(A2).astype("f4"))
+        )
 
     def _extract_roi_nodes(self, x0, base_out):
-        # Apply ROI pooling on the backbone output to extract regional features
+        # ROI pooling
         roi_pool = self.roi_pooling(x0)
 
         jcvs = []
-        # Loop through each ROI and process it individually
         for j in range(self.num_rois):
-            # Crop each ROI from the pooled features
             roi_crop = crop(1, j, j + 1)(roi_pool)
-            lname = 'roi_lambda_' + str(j)
-
-            # Squeeze out unnecessary dimensions and reshape each ROI into a feature vector
-            x = layers.Lambda(squeezefunc, name = lname)(roi_crop)
+            lname = "roi_lambda_" + str(j)
+            x = layers.Lambda(squeezefunc, name=lname)(roi_crop)
             x = layers.Reshape((self.feat_dim,))(x)
-
-            # Append processed ROI feature to the list
             jcvs.append(x)
 
-        # Resize backbone output to match ROI pool size and treat as an additional ROI
-        if self.pool_size != base_out.shape[1]: 
-            base_out = layers.Lambda(lambda x: tf.image.resize(x, size = (self.pool_size, self.pool_size)), name = 'Lambda_img_2')(base_out)
+        # Añadir el mapa base como ROI adicional
+        if self.pool_size != base_out.shape[1]:
+            base_out = layers.Lambda(
+                lambda x: tf.image.resize(x, size=(self.pool_size, self.pool_size)),
+                name="Lambda_img_2",
+            )(base_out)
 
-        # Reshape and append the resized base output to the list
-        x = layers.Reshape((self.feat_dim,))(base_out) # append the original ones
+        x = layers.Reshape((self.feat_dim,))(base_out)
         jcvs.append(x)
-        
-        # Stack all ROI and base features along a new dimension
-        jcvs = layers.Lambda(stackfunc, name = 'lambda_stack')(jcvs)
 
-        # Apply dropout to the stacked ROI features
+        # Apilar ROIs
+        jcvs = layers.Lambda(stackfunc, name="lambda_stack")(jcvs)
         jcvs = self.roi_droput_1(jcvs)
-
         return jcvs
 
-
     def _construct_layers(self):
-        # Upsample base network output for finer ROI extraction, e.g., Xception [7 x 7 x 2048] -> [42 x 42 x 2048]
-        self.upsampling_layer = layers.Lambda(lambda x: tf.image.resize(x, size = (self.ROIS_resolution, self.ROIS_resolution)), name = 'UpSample')
+        # Upsampling del feature map del backbone
+        self.upsampling_layer = layers.Lambda(
+            lambda x: tf.image.resize(x, size=(self.ROIS_resolution, self.ROIS_resolution)),
+            name="UpSample",
+        )
 
-        # ROI pooling layer for extracting features from specified ROIs
-        self.roi_pooling = RoiPoolingConv(pool_size = self.pool_size, num_rois = self.num_rois, rois_mat = self.rois_mat)
+        # ROI pooling
+        self.roi_pooling = RoiPoolingConv(
+            pool_size=self.pool_size, num_rois=self.num_rois, rois_mat=self.rois_mat
+        )
 
-        # Dropout layer applied after ROI pooling
-        self.roi_droput_1 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_1')
+        # Dropout tras ROI pooling
+        self.roi_droput_1 = layers.Dropout(self.dropout_rate, name="DOUT_1")
 
-        # TimeDistributed layer to reshape each ROI for GNN processing; [r x ppC] --> [r x p x p x C]
-        # where r: regions, p: pool_size, C: base_channel dimension
+        # TimeDistributed: reshape a [r, p, p, C]
         self.timedist_layer1 = layers.TimeDistributed(
-            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)), name='TD_Layer1'
+            layers.Reshape((self.pool_size, self.pool_size, self.base_channels)),
+            name="TD_Layer1",
         )
 
-        # TimeDistributed layer to transform ROIs to a format compatible with GNN layers
-        # Example: ROIs of [r x p x p x C] split into s times [r x p x p x ndim] --> [r x pps x ndim]
-        # where ndim: output node dimension, s = C/ndim
+        # TimeDistributed: convertir a nodos (sin Lambda con método ligado)
         self.timedist_layer2 = layers.TimeDistributed(
-            layers.Lambda(self._temp_nodes_transform), name='TD_Layer2'
+            TempNodesTransform(self.pool_size, self.base_channels, self.gcn_outfeat_dim),
+            name="TD_Layer2",
         )
 
+        # GNN 1: APPNP
         if self.gnn1_layr:
-            # First GNN layer using APPNP
             self.tgcn_1 = APPNPConvSafe(
-              self.gcn_outfeat_dim,
-              alpha=self.alpha,
-              propagations=1,
-              mlp_activation=self.appnp_activation,
-              use_bias=True,
-              name='GNN_1',
+                self.gcn_outfeat_dim,
+                alpha=self.alpha,
+                propagations=1,
+                mlp_activation=self.appnp_activation,
+                use_bias=True,
+                name="GNN_1",
             )
 
+        # GNN 2: GAT
         if self.gnn2_layr:
-            # Second GNN layer using GAT
             self.tgcn_2 = GATConvPatched(
-              self.gat_outfeat_dim,
-              attn_heads=self.attn_heads,
-              concat_heads=self.concat_heads,
-              dropout_rate=self.dropout_rate,
-              activation=self.gat_activation,
-              kernel_regularizer=l2(self.l2_reg),
-              attn_kernel_regularizer=l2(self.l2_reg),
-              bias_regularizer=l2(self.l2_reg),
-              name='GNN_2',
+                self.gat_outfeat_dim,
+                attn_heads=self.attn_heads,
+                concat_heads=self.concat_heads,
+                dropout_rate=self.dropout_rate,
+                activation=self.gat_activation,
+                kernel_regularizer=l2(self.l2_reg),
+                attn_kernel_regularizer=l2(self.l2_reg),
+                bias_regularizer=l2(self.l2_reg),
+                name="GNN_2",
             )
 
-        # Dropout layer applied after combining all intra- and inter-ROI nodes     
-        self.roi_droput_2 = tf.keras.layers.Dropout(self.dropout_rate, name='DOUT_2')
+        # Dropout tras combinar nodos
+        self.roi_droput_2 = layers.Dropout(self.dropout_rate, name="DOUT_2")
 
-        # Final layers: global attention pooling, batch normalization, and dense layer for classification
-        self.GlobAttpool = GlobalAttentionPool(self.gcn_outfeat_dim * 2, name = 'GlobalAttnPool')
-        self.BN2 = layers.BatchNormalization(name = 'BN')
-        self.Dense = layers.Dense(self.nb_classes, activation='softmax', name='Fully_Conn')
+        # Pooling global + BN + clasificador
+        self.GlobAttpool = GlobalAttentionPool(self.gcn_outfeat_dim * 2, name="GlobalAttnPool")
+        self.BN2 = layers.BatchNormalization(name="BN")
+        self.Dense = layers.Dense(self.nb_classes, activation="softmax", name="Fully_Conn")
 
-        
     def call(self, inputs):
-        # Get feature maps from base model and Track base features if  enabled
+        # Backbone
         base_out = self.base_model(inputs)
-        if self.track_feat:  
+        if self.track_feat:
             self.base_out = tf.identity(base_out)
-        
-        # Upsample feature maps
+
+        # Upsample
         x0 = self.upsampling_layer(base_out)
 
-        # Extract and process ROIs from upsampled feature maps
+        # ROIs
         rois = self._extract_roi_nodes(x0, base_out)
 
-        # Apply time-distributed layers to reshape each ROI for GNN processing
+        # TD reshape + a nodos
         x1 = self.timedist_layer1(rois)
         x1 = self.timedist_layer2(x1)
 
-        # Intra-ROI GNN processing
-        splits = tf.split(x1, num_or_size_splits = self.num_rois + 1, axis = 1)
+        # Intra-ROI
+        splits = tf.split(x1, num_or_size_splits=self.num_rois + 1, axis=1)
         xcoll = []
         for x in splits:
             x = tf.squeeze(x, axis=1)
             if self.gnn1_layr:
-                temp = self.tgcn_1([x, self.A_intra ])
-                x = temp + x       # Apply residual connection
+                temp = self.tgcn_1([x, self.A_intra])
+                x = temp + x
             if self.gnn2_layr:
-                temp = self.tgcn_2([x, self.A_intra ])
-                temp = temp + x    # Apply residual connection
+                temp = self.tgcn_2([x, self.A_intra])
+                temp = temp + x
             xcoll.append(temp)
-
-        # Concatenate results from intra-ROI processing
         x2_intra = tf.concat(xcoll, axis=1)
-        
-        # Track intra-ROI features if feature tracking is enabled
+
         if self.track_feat:
             self.x2_intra = tf.identity(x2_intra)
 
-        # Inter-ROI GNN processing
-        x1 = tf.transpose(x1, perm=[0, 2, 1, 3]) # Swap dimensions for inter-ROI processing
-        splits = tf.split(x1, num_or_size_splits = self.cnodes, axis = 1)
+        # Inter-ROI
+        x1_t = tf.transpose(x1, perm=[0, 2, 1, 3])  # [B, cnodes, r, feat]
+        splits = tf.split(x1_t, num_or_size_splits=self.cnodes, axis=1)
         xcoll = []
         for x in splits:
             x = tf.squeeze(x, axis=1)
             if self.gnn1_layr:
-                temp = self.tgcn_1([x, self.A_inter ])
-                x = temp + x       # Apply residual connection 
+                temp = self.tgcn_1([x, self.A_inter])
+                x = temp + x
             if self.gnn2_layr:
-                temp = self.tgcn_2([x, self.A_inter ])
-                temp = temp + x    # Apply residual connection
+                temp = self.tgcn_2([x, self.A_inter])
+                temp = temp + x
             xcoll.append(temp)
-
-        # Concatenate results from inter-ROI processing
         x2_inter = tf.concat(xcoll, axis=1)
-        
-        # Track inter-ROI features if feature tracking is enabled
+
         if self.track_feat:
             self.x2_inter = tf.identity(x2_inter)
 
-        # Combine intra- and inter-ROI features and apply dropout
+        # Combinar y clasificar
         x2 = tf.concat([x2_intra, x2_inter], axis=1)
         x3 = self.roi_droput_2(x2)
-
-        # Apply global attention pooling
         xf = self.GlobAttpool(x3)
-        
-        # Track pooled features if feature tracking is enabled
+
         if self.track_feat:
             self.GlobAttpool_feat = tf.identity(xf)
 
-        # Final batch normalization and dense layer for classification
         xf = self.BN2(xf)
-        feat = self.Dense(xf)
+        out = self.Dense(xf)
+        return out
 
-        return feat
+    def get_config(self):
+        return super().get_config()
+
+    @classmethod
+    def from_config(cls, config):
+        return cls(**config)
 
