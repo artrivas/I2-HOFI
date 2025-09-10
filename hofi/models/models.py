@@ -421,3 +421,4 @@ class I2HOFI(Params):
         feat = self.Dense(xf)
 
         return feat
+
