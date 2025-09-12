@@ -2,19 +2,22 @@
 import sys
 import os, ast
 import yaml, json
+import math
 import numpy as np
 import wandb
 
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.metrics import TopKCategoricalAccuracy
 from tensorflow.keras.applications.xception import preprocess_input as pp_input
+from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 
 # user-defined functions (from utils.py)
 from dataset_info import datasetInfo
 from datagen import DirectoryDataGenerator
 from customcallbacks import ValCallback
-from schedulers import StepLearningRateScheduler
+from schedulers import StepLearningRateScheduler  # opcional: ya no se usa por defecto
 from utils import get_flops
 from models import construct_model
 
@@ -31,26 +34,25 @@ def ensure_dir(path: str):
 def process_dir(rootdir, dataset, model_name):
     dataset_dir = rootdir + dataset
     working_dir = os.path.dirname(os.path.realpath(__file__))
-    train_data_dir = '{}/train/'.format(dataset_dir)
-    val_data_dir = '{}/val/'.format(dataset_dir)
+    train_data_dir = f'{dataset_dir}/train/'
+    val_data_dir = f'{dataset_dir}/val/'
     if not os.path.isdir(val_data_dir):
-        val_data_dir = '{}/test/'.format(dataset_dir)
+        val_data_dir = f'{dataset_dir}/test/'
 
     # Carpeta de modelos y métricas por modelo
-    output_model_dir = '{}/TrainedModels/{}'.format(working_dir, model_name)
-    metrics_dir = '{}/Metrics/{}'.format(working_dir, model_name)
+    output_model_dir = f'{working_dir}/TrainedModels/{model_name}'
+    metrics_dir = f'{working_dir}/Metrics/{model_name}'
 
     # Crear carpetas si no existen
     ensure_dir(output_model_dir)
     ensure_dir(metrics_dir)
 
-    nb_train_samples = sum([len(files) for r, d, files in os.walk(train_data_dir)])  # número de imágenes de train
-    nb_val_samples = sum([len(files) for r, d, files in os.walk(val_data_dir)])      # número de imágenes de val/test
+    # Conteos de imágenes
+    nb_train_samples = sum([len(files) for _, _, files in os.walk(train_data_dir)])
+    nb_val_samples = sum([len(files) for _, _, files in os.walk(val_data_dir)])
 
-    # validation_steps viene desde el config como validation_freq
-    validation_steps = validation_freq
-
-    return dataset_dir, train_data_dir, val_data_dir, output_model_dir, metrics_dir, nb_train_samples, validation_steps
+    return (dataset_dir, train_data_dir, val_data_dir,
+            output_model_dir, metrics_dir, nb_train_samples, nb_val_samples)
 
 # ======================= Cargar config y variables =======================
 
@@ -93,7 +95,8 @@ if __name__ == "__main__":
                 exec("{} = '{}'".format(var_name, new_val))
 
     # ----------------- Paths y conteos -----------------
-    dataset_dir, train_data_dir, val_data_dir, output_model_dir, metrics_dir, nb_train_samples, validation_steps = process_dir(
+    (dataset_dir, train_data_dir, val_data_dir,
+     output_model_dir, metrics_dir, nb_train_samples, nb_val_samples) = process_dir(
         rootdir, dataset, model_name
     )
     nb_classes = datasetInfo(dataset)
@@ -122,7 +125,7 @@ if __name__ == "__main__":
                 "batch_size": batch_size,
                 "nb_classes": nb_classes,
                 "lr": lr,
-                "validation_steps": validation_steps,
+                "validation_freq": validation_freq,
                 "checkpoint_freq": checkpoint_freq,
                 "completed_epochs": completed_epochs,
                 "gcn_outfeat_dim": gcn_outfeat_dim,
@@ -212,19 +215,26 @@ if __name__ == "__main__":
     )
 
     # ================== Checkpoint Path ==================
-    # Usamos separadores seguros (sin '|') y mantenemos placeholders para el ValCallback
+    # Cambiamos a formato Keras nativo para evitar warnings
     filename_template = (
         f"{dataset}_{backbone}_Bs{batch_size}_initlr{lr}_"
-        "epoch:{:03d}_lr{:.6f}_valAcc{:.4f}.h5"
+        "epoch:{:03d}_lr{:.6f}_valAcc{:.4f}.keras"
     )
     checkpoint_path = os.path.join(output_model_dir, filename_template)
 
     # =========== Custom CALLBACKS (val + guardado) ==========
+    # IMPORTANTE: ValCallback debe guardar con model.save(...) si usas .keras
+    # (si guarda solo pesos usa .weights.h5 y model.save_weights(...))
+    # Ahora pasamos pasos de validación reales, NO validation_freq.
+    # Calculamos steps por tamaño de dataset para estabilidad.
+    train_steps = max(1, math.ceil(nb_train_samples / batch_size))
+    val_steps   = max(1, math.ceil(nb_val_samples   / batch_size))
+
     callbacks.append(
         ValCallback(
             val_dg,
-            validation_steps,
-            metrics_dir,          # <- SOLO metrics_dir (sin sumar model_name)
+            val_steps,            # <- nº de batches a evaluar en validación (completo)
+            metrics_dir,
             wandb_log,
             save_model,
             checkpoint_path,
@@ -233,11 +243,21 @@ if __name__ == "__main__":
         )
     )
 
-    # =========== LR Scheduler opcional ===========
+    # =========== Scheduler/ES ===========
+    # Por defecto: ReduceLROnPlateau + EarlyStopping para estabilizar val
     if reduce_lr_bool:
-        schedule_epochs = [50, 100, 150]
-        lr_schedule = StepLearningRateScheduler(schedule_epochs, factor=0.1)
-        callbacks.append(lr_schedule)
+        callbacks.append(
+            ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3,
+                              verbose=1, min_lr=1e-6)
+        )
+
+    callbacks.append(
+        EarlyStopping(monitor="val_loss", patience=8, restore_best_weights=True, verbose=1)
+    )
+
+    # (Opcional) Si quieres además tu Step LR, actívalo moviendo los hitos:
+    # schedule_epochs = [10, 20, 30]
+    # callbacks.append(StepLearningRateScheduler(schedule_epochs, factor=0.1))
 
     # =======================  Cargar pesos si corresponde  =======================
     if load_model:
@@ -248,28 +268,30 @@ if __name__ == "__main__":
             print("No se pudo cargar el checkpoint especificado:", e)
 
     # =======================  Compilar y Entrenar  =======================
-    optimizer = SGD(learning_rate=lr)
+    # Sugerido para Adam: lr ~ 1e-3; usamos clipnorm para estabilizar GATs
+    # Si tu YAML trae lr alto (p. ej. 0.01), cámbialo a 0.001.
+    optimizer = Adam(learning_rate=lr, amsgrad=True, clipnorm=1.0)
+
     model.compile(
         optimizer=optimizer,
         loss="categorical_crossentropy",
-        metrics=["accuracy"],
+        metrics=["accuracy", TopKCategoricalAccuracy(k=5)],
         jit_compile=False,       # dejar False para evitar sorpresas con custom layers
         # run_eagerly=True,      # activar solo si necesitas depurar (lento)
     )
 
-    steps_per_epoch = max(1, nb_train_samples // batch_size)  # evitar 0
     history = model.fit(
         train_dg,
-        steps_per_epoch=steps_per_epoch,
+        steps_per_epoch=train_steps,
         validation_data=val_dg,
-        validation_steps=validation_steps,
+        validation_steps=val_steps,     # <- evaluamos TODO val
+        validation_freq=validation_freq,  # <- cada cuántas épocas validar (del YAML)
         initial_epoch=completed_epochs,
         epochs=epochs,
         callbacks=callbacks
     )
 
     # =======================  Guardado final del modelo completo  =======================
-    # Además de los checkpoints de pesos, guarda un .keras (modelo completo listo para cargar)
     final_model_path = os.path.join(output_model_dir, f"{model_name}_final.keras")
     try:
         model.save(final_model_path)
@@ -280,4 +302,3 @@ if __name__ == "__main__":
     # =======================  Cierre de W&B  =======================
     if wandb_log and (wrun is not None):
         wrun.finish()
-
